@@ -8,6 +8,7 @@
 #include<string.h>
 #include<arpa/inet.h>
 
+/*第一次测试*/
 using namespace std;
 int main() {
 
@@ -25,7 +26,7 @@ int main() {
 
     if(-1==listen(fd,SOMAXCONN))
         perror("SOCKET LISTEN");
-    
+
     struct sockaddr_in client_addr;
     memset(&client_addr,0,sizeof(struct sockaddr_in));
     socklen_t socklen=sizeof(struct sockaddr_in);
@@ -42,8 +43,6 @@ int main() {
         write(conn,recvbuff,recvlen);
         printf("%s\n",recvbuff);
     }
-
-
 
 
     return 0;
