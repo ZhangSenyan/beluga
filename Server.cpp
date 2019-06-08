@@ -1,11 +1,11 @@
 #include <iostream>
-#include<stdio.h>
+#include<cstdio>
 #include<sys/socket.h>
 #include<sys/types.h>
 #include<unistd.h>
 #include<netinet/in.h>
 #include<netinet/ip.h>
-#include<string.h>
+#include<cstring>
 #include<arpa/inet.h>
 
 /*第一次测试*/
