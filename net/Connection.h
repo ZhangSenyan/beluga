@@ -9,7 +9,7 @@
 #include <_G_config.h>
 #include <functional>
 #include <arpa/inet.h>
-#include "CellTask.h"
+#include "../task/CellTask.h"
 #include <queue>
 #include <memory>
 
@@ -17,7 +17,7 @@
 class Connection {
 public:
 
-    Connection();
+    Connection(int fd);
     ~Connection();
     int getFd();
     void setFd(int fd);
