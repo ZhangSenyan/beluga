@@ -13,7 +13,7 @@ Epoll::~Epoll(){
 
 bool Epoll::addChannel(ptrChannel channel){
 
-    channelPoll[channel->getFd()] = channel;
+    channelPool[channel->getFd()] = channel;
     struct epoll_event ev;
     ev.events = channel->getEvents();
     ev.data.fd = channel->getFd();
@@ -31,19 +31,19 @@ bool Epoll::removeChannel(ptrChannel){
 }
 
 
-Epoll::ptrVectorCh Epoll::poll(){
-    int nfds = epoll_wait(_waitFd, _events, channelPoll.size(), -1);
+Epoll::VectorCh Epoll::poll(){
+    int nfds = epoll_wait(_waitFd, _events, 100, -1);
     std::cout<<"recv nfds="<<nfds<<std::endl;
     if (nfds == -1)
     {
         perror("epoll_wait");
     }
-    ptrVectorCh _ptrVectorCh(new VectorCh());  //内置指针不能隐式转化为智能指针
+    VectorCh v;  //内置指针不能隐式转化为智能指针
 
     for(int i=0;i<nfds;i++){
         int readfd=_events[i].data.fd;
-        channelPoll[readfd]->setRevents(_events[i].events);
-        _ptrVectorCh->push_back(channelPoll[readfd]);
+        channelPool[readfd]->setRevents(_events[i].events);
+        v.push_back(channelPool[readfd]);
     }
-    return _ptrVectorCh;
+    return v;
 }

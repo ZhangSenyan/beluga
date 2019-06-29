@@ -9,18 +9,18 @@
 
 #include <sys/epoll.h>
 #include <map>
-#include "Channel.h"
 #include <memory>
 #include <vector>
 #include <iostream>
+#include "Channel.h"
 
 
 class Epoll {
 public:
     typedef std::shared_ptr<Channel>  ptrChannel;
     typedef std::vector<ptrChannel> VectorCh;
-    typedef std::shared_ptr<VectorCh> ptrVectorCh;
-    typedef std::map<int,ptrChannel> ChannelPoll;
+
+    typedef std::map<int,ptrChannel> ChannelPool;
 
     Epoll(int size=MAXEPOLLSIZE);
     ~Epoll();
@@ -28,14 +28,14 @@ public:
     bool addChannel(ptrChannel channel);
     bool removeChannel(ptrChannel);
 
-    ptrVectorCh poll();
+    VectorCh poll();
 
 
 private:
     int _waitFd;
 
     struct epoll_event _events[MAXEPOLLSIZE];
-    ChannelPoll channelPoll;
+    ChannelPool channelPool;
 };
 
 

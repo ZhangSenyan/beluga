@@ -31,8 +31,8 @@ int main(){
         cin>>sendbuff;
         cout<<strlen(sendbuff)<<endl;
         write(fd,sendbuff,strlen(sendbuff));
-        recvlen=read(fd,recvbuff,sizeof(recvbuff));
-        cout<<recvlen<<endl;
-        cout<<recvbuff<<endl;
+        //recvlen=read(fd,recvbuff,sizeof(recvbuff));
+        //cout<<recvlen<<endl;
+        //cout<<recvbuff<<endl;
     }
 }

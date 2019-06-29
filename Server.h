@@ -9,7 +9,8 @@
 #include <memory>
 #include "task/CellTask.h"
 #include "net/Epoll.h"
-
+#include "thread/AcceptThread.h"
+#include <set>
 
 class Server {
 public:
@@ -24,8 +25,10 @@ public:
 private:
     int _listenFd;
     bool _running;
-    Epoll _epoll;
+    AcceptThread _acceptThread;
+    std::set<std::shared_ptr<Connection> > _conns;
+
 };
 
 
-#endif //HCCSERVER_SERVER_H
+#endif

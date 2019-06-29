@@ -9,7 +9,7 @@
 #include<cstdio>
 #include <fcntl.h>
 
-int socketStart(int port){
+int socketCreate(int port){
     int fd=socket(AF_INET,SOCK_STREAM,0);
     if(fd==-1){
         perror("SOCKET Create");
@@ -17,8 +17,14 @@ int socketStart(int port){
 
     struct sockaddr_in server_addr;
     server_addr.sin_family=AF_INET;
-    server_addr.sin_port=htons(10002);
-    server_addr.sin_addr.s_addr=inet_addr("10.20.4.5");
+    server_addr.sin_port=htons(port);
+    server_addr.sin_addr.s_addr=htonl (INADDR_ANY);
+
+    /*if (setnonblocking(fd) < 0) {
+        perror("setnonblock error");
+    }*/
+
+
     if(-1==bind(fd,(struct sockaddr*)&server_addr,sizeof(server_addr)))
         perror("SOCKET BIND");
 
