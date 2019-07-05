@@ -31,6 +31,7 @@ private:
     std::weak_ptr<Connection> _holder;
 
 public:
+
     void setHolder(std::shared_ptr<Connection> holder){
         _holder=holder;
     }

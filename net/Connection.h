@@ -13,13 +13,14 @@
 #include <string>
 
 #include "Channel.h"
-#include "../thread/AcceptThread.h"
+
 #include "../task/CellTask.h"
-#include "../Server.h"
 
+#include "../base/Buffer.h"
 
+class AcceptThread;
 
-class Connection {
+struct Connection: std::enable_shared_from_this<Connection>{
 public:
     Connection(int fd,struct sockaddr_in clientAddr,AcceptThread *acceptThread);
     ~Connection();
@@ -31,6 +32,7 @@ public:
     std::string getIP();
     int getPort();
     std::shared_ptr<Channel> getChannel();
+    int flushBuffer();
 
 private:
     typedef std::function<void()> Handler;
@@ -41,6 +43,7 @@ private:
     std::shared_ptr<Channel> _channel;
     PtrTaskQueue _ptrTaskQueue;
     AcceptThread* _acceptThread;
+    Buffer _buffer;
 };
 
 

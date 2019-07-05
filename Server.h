@@ -7,10 +7,9 @@
 
 #include <functional>
 #include <memory>
-#include "task/CellTask.h"
-#include "net/Epoll.h"
-#include "thread/AcceptThread.h"
 #include <set>
+#include "thread/AcceptThread.h"
+
 
 class Server {
 public:

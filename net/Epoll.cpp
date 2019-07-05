@@ -1,4 +1,5 @@
 #include "Epoll.h"
+#include <string.h>
 //
 // Created by zhsy on 19-6-8.
 //
@@ -15,6 +16,7 @@ bool Epoll::addChannel(ptrChannel channel){
 
     channelPool[channel->getFd()] = channel;
     struct epoll_event ev;
+    memset(&ev, 0, sizeof(ev));
     ev.events = channel->getEvents();
     ev.data.fd = channel->getFd();
 

@@ -3,17 +3,16 @@
 //
 
 #include "Server.h"
-#include "util/Util.h"
+#include "base/Util.h"
 #include <cstring>
 #include <arpa/inet.h>
 #include <iostream>
 #include "net/Connection.h"
 
 
-Server::Server(int port):_listenFd(socketCreate(port)),_running(false){
+Server::Server(int port):_listenFd(socketCreate(port)),_running(false),_acceptThread(),_conns(){
     std::cout<<"Create Socket: Port="<<port<<std::endl;
-    _acceptThread.startLoop();
-    std::cout<<"has join ..."<<std::endl;
+
 }
 Server::~Server(){
 
@@ -23,6 +22,8 @@ int Server::registerDealer(Dealer dealer){
 }
 void Server::startListen(){
     std::cout<<"Start listen"<<std::endl;
+    _acceptThread.startLoop();
+    std::cout<<"has detach ..."<<std::endl;
     _running=true;
     struct sockaddr_in client_addr;
     socklen_t socklen=sizeof(struct sockaddr_in);
@@ -38,7 +39,6 @@ void Server::startListen(){
         }
         std::shared_ptr<Connection> conn(new Connection(connFd,client_addr,&_acceptThread));
         _conns.insert(conn);
-        conn->getChannel()->setHolder(conn);
         conn->getChannel()->setEvents(EPOLLIN | EPOLLET);
         _acceptThread.addChannel(conn->getChannel());
 
