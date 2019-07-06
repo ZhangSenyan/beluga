@@ -26,7 +26,8 @@ public:
     ~Epoll();
 
     bool addChannel(ptrChannel channel);
-    bool removeChannel(ptrChannel);
+    bool removeChannel(ptrChannel channel);
+    int updateChannel(ptrChannel channel);
 
     VectorCh poll();
 

@@ -22,6 +22,21 @@ bool Epoll::addChannel(ptrChannel channel){
 
     if (epoll_ctl(_waitFd, EPOLL_CTL_ADD, channel->getFd(), &ev) < 0)
     {
+        fprintf(stderr, "epoll set modify error: fd=%d\n", channel->getFd());
+        return -1;
+    }
+
+}
+int Epoll::updateChannel(ptrChannel channel){
+
+    channelPool[channel->getFd()] = channel;
+    struct epoll_event ev;
+    memset(&ev, 0, sizeof(ev));
+    ev.events = channel->getEvents();
+    ev.data.fd = channel->getFd();
+
+    if (epoll_ctl(_waitFd, EPOLL_CTL_MOD, channel->getFd(), &ev) < 0)
+    {
         fprintf(stderr, "epoll set insertion error: fd=%d\n", channel->getFd());
         return -1;
     }

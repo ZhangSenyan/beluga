@@ -12,10 +12,10 @@
 #include <stdlib.h>
 #include "Util.h"
 #include <stdint.h>
-
+#include "../net/Connection.h"
 
 #define BUFFER_SIZE 4096
-Buffer::Buffer(int fd):_fd(fd),recvIndexEnd(0),sendIndexEnd(0){
+Buffer::Buffer(int fd,Connection *holder):_fd(fd),recvIndexEnd(0),sendIndexEnd(0),_holder(holder){
     recvbuffer=new char[BUFFER_SIZE];
     sendbuffer=new char[BUFFER_SIZE];
 
@@ -29,7 +29,7 @@ Buffer::~Buffer(){
  * 返回值为-1，代表写入失败
  * */
 int Buffer::write(std::string str){
-    std::cout<<"Buffer write str"<<std::endl;
+
     write((char*)str.c_str(),str.length());
     return 0;
 }
@@ -41,9 +41,10 @@ int Buffer::write(const char* str){
 }
 
 int Buffer::write(const char* str,uint32_t len){
-    if(len>BUFFER_SIZE-sendIndexEnd)
-        return -1;
+    MutexLockGuard lock(_mutex);
 
+    if(len+4>BUFFER_SIZE-sendIndexEnd)
+        return -1;
     //设置头端
     uint32_t nlen=htonl(len);
     memcpy(sendbuffer+sendIndexEnd,&nlen,4);
@@ -53,20 +54,33 @@ int Buffer::write(const char* str,uint32_t len){
     memcpy(sendbuffer+sendIndexEnd,str,len);
     sendIndexEnd+=len;
 
+    //定量发送，只有累计数据大于BUFFER一半时，才开始发送数据
+    if(sendIndexEnd>BUFFER_SIZE/2&&_holder){
+        _holder->openListenEvent();
+    }
 
     return 0;
 }
+/*
+ * 如果为空    返回0
+ * 如果出错    返回-1
+ * 成功发送    返回发送的字节数
+ *
+ * 需要加锁，避免读得冲刷缓冲区时写入数据
+ *
+ * */
 int Buffer::flushSend(){
-    std::cout<<"Buffer flushSend()"<<std::endl;
+
+    MutexLockGuard lock(_mutex);
+
     if(sendIndexEnd==0){
         //当前缓冲区为空
+        std::cout<<"Buffer flushSend()  num="<<0<<std::endl;
         return 0;
     }
 
-
-    std::cout<<sendbuffer<<std::endl;
     int ret=writen(_fd,sendbuffer,(size_t )sendIndexEnd);
-
+    std::cout<<"Buffer flushSend()  num="<<ret<<std::endl;
     if(ret==-1)
         //写入0字节
         return -1;
@@ -74,9 +88,19 @@ int Buffer::flushSend(){
     //将剩余的字符向前移动
     memcpy(sendbuffer,sendbuffer+ret,sendIndexEnd-ret);
     sendIndexEnd-=ret;
-    return 0;
-}
 
+    return ret;
+}
+bool Buffer::empty() {
+    if(sendIndexEnd==0)
+        return true;
+    else
+        return false;
+}
+/*
+ * 读写缓冲区分离
+ * 读的时候不需要加锁
+ * */
 std::vector<std::string> Buffer::readStream(){
     std::cout<<"readStream()"<<std::endl;
     std::vector<std::string> retV;

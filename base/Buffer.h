@@ -8,10 +8,13 @@
 
 #include <memory>
 #include <vector>
-
+#include <string>
+#include <queue>
+#include "MutexLock.h"
+class Connection;
 class Buffer {
 public:
-    Buffer(int fd);
+    Buffer(int fd,Connection* holder=NULL);
     ~Buffer();
     /*
      * 返回值为0,代表写入成功
@@ -21,7 +24,7 @@ public:
     int write(const char* str);
     int write(const char* str,uint32_t len);
     int flushSend();
-
+    bool empty();
     std::vector<std::string> readStream();
 private:
     size_t recvIndexEnd;
@@ -29,6 +32,9 @@ private:
     char *recvbuffer;
     char *sendbuffer;
     int _fd;
+    Connection* _holder;
+    mutable MutexLock _mutex;
+    std::queue<std::string> waitQ;
 };
 
 

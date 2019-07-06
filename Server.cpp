@@ -10,7 +10,7 @@
 #include "net/Connection.h"
 
 
-Server::Server(int port):_listenFd(socketCreate(port)),_running(false),_acceptThread(),_conns(){
+Server::Server(int port):_listenFd(socketCreate(port)),_running(false),_acceptThread(10000,50),_conns(){
     std::cout<<"Create Socket: Port="<<port<<std::endl;
 
 }
@@ -39,8 +39,8 @@ void Server::startListen(){
         }
         std::shared_ptr<Connection> conn(new Connection(connFd,client_addr,&_acceptThread));
         _conns.insert(conn);
-        conn->getChannel()->setEvents(EPOLLIN | EPOLLET);
-        _acceptThread.addChannel(conn->getChannel());
+        _acceptThread.addConnction(conn);
+
 
     }
 }

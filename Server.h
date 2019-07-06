@@ -10,7 +10,7 @@
 #include <set>
 #include "thread/AcceptThread.h"
 
-
+class CellTask;
 class Server {
 public:
     typedef std::shared_ptr<CellTask> PtrCellTask;

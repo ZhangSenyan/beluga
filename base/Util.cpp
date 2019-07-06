@@ -12,24 +12,36 @@
 #include <sys/timerfd.h>
 
 int socketCreate(int port){
+    //创建SOCKET
     int fd=socket(AF_INET,SOCK_STREAM,0);
     if(fd==-1){
         perror("SOCKET Create");
     }
 
-    struct sockaddr_in server_addr;
-    server_addr.sin_family=AF_INET;
-    server_addr.sin_port=htons(port);
-    server_addr.sin_addr.s_addr=htonl (INADDR_ANY);
+    //设定多路地址复用
+    int optval = 1;
+    if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval)) < 0)
+    {
+        perror("setsockopt bind\n");
+        exit(0);
+    }
 
+    //设置非阻塞
     /*if (setnonblocking(fd) < 0) {
         perror("setnonblock error");
     }*/
 
 
+    //绑定地址
+    struct sockaddr_in server_addr;
+    server_addr.sin_family=AF_INET;
+    server_addr.sin_port=htons(port);
+    server_addr.sin_addr.s_addr=htonl (INADDR_ANY);
+
     if(-1==bind(fd,(struct sockaddr*)&server_addr,sizeof(server_addr)))
         perror("SOCKET BIND");
 
+    //启动监听
     if(-1==listen(fd,SOMAXCONN))
         perror("SOCKET LISTEN");
     return fd;
@@ -88,10 +100,10 @@ int timerfd_init(unsigned long ms)
     int tmfd;
     int ret;
     struct itimerspec new_value;
-    new_value.it_value.tv_sec = 0;
-    new_value.it_value.tv_nsec =ms*1000000;
-    new_value.it_interval.tv_sec = 0;
-    new_value.it_interval.tv_nsec = ms*1000000;
+    new_value.it_value.tv_sec = ms/1000;
+    new_value.it_value.tv_nsec =(ms%1000)*1000000;
+    new_value.it_interval.tv_sec = ms/1000;
+    new_value.it_interval.tv_nsec = (ms%1000)*1000000;
 
     tmfd = timerfd_create(CLOCK_MONOTONIC, 0);
     if (tmfd < 0) {

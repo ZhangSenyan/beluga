@@ -9,6 +9,7 @@
 #include<stdio.h>
 #include<arpa/inet.h>
 #include "base/Buffer.h"
+#include "base/Util.h"
 using namespace std;
 int main(){
     int fd=socket(AF_INET,SOCK_STREAM,0);
@@ -23,11 +24,11 @@ int main(){
 
     int ret=connect(fd,(const struct sockaddr*) &server_addr,sizeof(struct sockaddr));
     cout<<ret<<endl;
-
+    setnonblocking(fd);
 
     ssize_t recvlen=0;
     Buffer buffer(fd);
-    //char sendbuffer[200]={0};
+    char recvbuffer[200]={0};
     while(1){
         string sendbuff;
         cin>>sendbuff;
@@ -37,8 +38,15 @@ int main(){
         buffer.write(sendbuff+"001");
         buffer.write(sendbuff+"002");
         buffer.flushSend();
-        //recvlen=read(fd,recvbuff,sizeof(recvbuff));
-        //cout<<recvlen<<endl;
-        //cout<<recvbuff<<endl;
+        while(1){
+            auto recvV=buffer.readStream();
+            for(auto msg:recvV){
+                cout<<msg<<endl;
+            }
+
+            sleep(1);
+        }
+        std::cout<<"end"<<std::endl;
+
     }
 }

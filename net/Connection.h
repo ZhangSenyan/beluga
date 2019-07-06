@@ -12,15 +12,14 @@
 #include <memory>
 #include <string>
 
-#include "Channel.h"
-
-#include "../task/CellTask.h"
+class Channel;
+class CellTask;
 
 #include "../base/Buffer.h"
 
 class AcceptThread;
 
-struct Connection: std::enable_shared_from_this<Connection>{
+struct Connection{
 public:
     Connection(int fd,struct sockaddr_in clientAddr,AcceptThread *acceptThread);
     ~Connection();
@@ -33,15 +32,16 @@ public:
     int getPort();
     std::shared_ptr<Channel> getChannel();
     int flushBuffer();
-
+    AcceptThread* getAcceptThread();
+    void openListenEvent();
+    void closeListenEvent();
+    int writeBuffer(std::string result);
 private:
     typedef std::function<void()> Handler;
-    typedef std::shared_ptr<std::queue<std::shared_ptr<CellTask>>> PtrTaskQueue;
     int _fd;
     struct sockaddr_in _clientAddr;
     size_t _expiredTime;
     std::shared_ptr<Channel> _channel;
-    PtrTaskQueue _ptrTaskQueue;
     AcceptThread* _acceptThread;
     Buffer _buffer;
 };
