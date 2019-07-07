@@ -14,7 +14,7 @@ using namespace std;
 int main(){
     struct pollfd fds[OPEN_MAX];
     for(int j=0;j<OPEN_MAX;j++){
-        fds[j].fd = -1;
+        fds[j].fd =  -1;
     }
 
     std::map<int,std::shared_ptr<Client>> clientSet;
