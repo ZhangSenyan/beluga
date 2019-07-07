@@ -82,7 +82,5 @@ int Connection::writeBuffer(std::string result){
 }
 
 void Connection::setAcceptThread(std::shared_ptr<AcceptThread> acceptThread){
-    std::cout<<"Connection::setAcceptThread"<<std::endl;
     _acceptThread=acceptThread;
-    std::cout<<"Connection::setAcceptThread end"<<std::endl;
 }

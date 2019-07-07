@@ -9,7 +9,7 @@
 #include "Client.h"
 
 using namespace std;
-#define OPEN_MAX 200
+#define OPEN_MAX 50000
 
 int main(){
     struct pollfd fds[OPEN_MAX];
