@@ -10,15 +10,14 @@
 #include <functional>
 
 
-class AcceptThread;
+class EventLoop;
 class Channel;
 class Timer :std::enable_shared_from_this<Timer>{
 public:
     explicit Timer(int ms);
     ~Timer();
-
     int getFD();
-    void setHolder(AcceptThread* acceptThread);
+    void setHolder(EventLoop* acceptThread);
     void handleRead();
     void handleWrite();
     void handleError();
@@ -28,7 +27,7 @@ private:
     int timefd;
     int interTime;
     std::shared_ptr<Channel> _channel;
-    AcceptThread* _acceptThread;
+    EventLoop* _eventLoop;
     std::function<void(void)> _timeHandler;
 };
 

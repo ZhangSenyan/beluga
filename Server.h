@@ -8,9 +8,9 @@
 #include <functional>
 #include <memory>
 #include <set>
-#include "thread/AcceptThread.h"
-#include "thread/DealThread.h"
-#include "task/TaskQueue.h"
+#include "AcceptThreadPool.h"
+#include "DealThreadPool.h"
+class TaskQueue;
 class CellTask;
 class Server {
 public:
@@ -25,8 +25,8 @@ public:
 private:
     int _listenFd;
     bool _running;
-    AcceptThread _acceptThread;
-    DealThread _dealThread;
+    AcceptThreadPool _acceptThreads;
+    DealThreadPool _dealThreads;
     std::shared_ptr<TaskQueue> _taskQueue;
     std::set<std::shared_ptr<Connection> > _conns;
 

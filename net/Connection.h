@@ -21,7 +21,7 @@ class AcceptThread;
 
 struct Connection:std::enable_shared_from_this<Connection>{
 public:
-    Connection(int fd,struct sockaddr_in clientAddr,AcceptThread *acceptThread);
+    Connection(int fd,struct sockaddr_in clientAddr);
     ~Connection();
     int getFd();
     void setFd(int fd);
@@ -32,17 +32,18 @@ public:
     int getPort();
     std::shared_ptr<Channel> getChannel();
     int flushBuffer();
-    AcceptThread* getAcceptThread();
+    std::shared_ptr<AcceptThread> getAcceptThread();
     void openListenEvent();
     void closeListenEvent();
     int writeBuffer(std::string result);
+    void setAcceptThread(std::shared_ptr<AcceptThread> acceptThread);
 private:
     typedef std::function<void()> Handler;
     int _fd;
     struct sockaddr_in _clientAddr;
     size_t _expiredTime;
     std::shared_ptr<Channel> _channel;
-    AcceptThread* _acceptThread;
+    std::weak_ptr<AcceptThread> _acceptThread;  //智能相互引用问题
     Buffer _buffer;
 };
 

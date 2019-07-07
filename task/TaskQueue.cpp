@@ -3,8 +3,9 @@
 //
 
 #include "TaskQueue.h"
+#include <iostream>
 TaskQueue::TaskQueue(size_t maxSize):_maxSize(maxSize){
-
+    std::cout<<"TaskQueue::TaskQueue"<<std::endl;
 }
 TaskQueue::~TaskQueue(){
 

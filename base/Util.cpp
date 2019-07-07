@@ -13,6 +13,7 @@
 #include "Util.h"
 
 int socketCreate(int port){
+    std::cout<<"socketCreate"<<std::endl;
     //创建SOCKET
     int fd=socket(AF_INET,SOCK_STREAM,0);
     if(fd==-1){

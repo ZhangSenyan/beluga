@@ -8,13 +8,15 @@
 #include <arpa/inet.h>
 #include <iostream>
 #include "Connection.h"
+#include "task/TaskQueue.h"
 
 
-Server::Server(int port):_listenFd(socketCreate(port)),_running(false),_acceptThread(10000,50),
-        _conns(),_dealThread(),_taskQueue(new TaskQueue()){
+Server::Server(int port):_listenFd(socketCreate(port)),_running(false),_acceptThreads(4,150000),
+        _conns(),_dealThreads(8),_taskQueue(new TaskQueue()){
     std::cout<<"Create Socket: Port="<<port<<std::endl;
-    _acceptThread.setTaskQueue(_taskQueue);
-    _dealThread.setTaskQueue(_taskQueue);
+    _acceptThreads.setTaskQueue(_taskQueue);
+    _dealThreads.setTaskQueue(_taskQueue);
+    std::cout<<"Create Server"<<std::endl;
 
 }
 Server::~Server(){
@@ -25,7 +27,8 @@ int Server::registerDealer(Dealer dealer){
 }
 void Server::startListen(){
     std::cout<<"Start listen"<<std::endl;
-    _acceptThread.startLoop();
+    _acceptThreads.startLoop();
+    _dealThreads.startLoop();
     std::cout<<"has detach ..."<<std::endl;
     _running=true;
     struct sockaddr_in client_addr;
@@ -40,10 +43,10 @@ void Server::startListen(){
         if (setnonblocking(connFd) < 0) {
             perror("setnonblock error");
         }
-        std::shared_ptr<Connection> conn(new Connection(connFd,client_addr,&_acceptThread));
-        _conns.insert(conn);
-        _acceptThread.addConnction(conn);
 
+        std::shared_ptr<Connection> conn(new Connection(connFd,client_addr));
+        _conns.insert(conn);
+        _acceptThreads.putConnection(conn);
 
     }
 }

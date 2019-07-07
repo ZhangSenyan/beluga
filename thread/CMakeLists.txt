@@ -8,4 +8,4 @@ include_directories(
         ${PROJECT_SOURCE_DIR}/thread
 )
 
-add_library(thread_lib SHARED AcceptThread.cpp DealThread.cpp ThreadPool.cpp)
+add_library(thread_lib SHARED AcceptThread.cpp DealThread.cpp AcceptThreadPool.cpp EventLoop.cpp EventLoop.h DealThreadPool.cpp DealThreadPool.h)

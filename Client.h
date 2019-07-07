@@ -5,7 +5,7 @@
 #ifndef HCCSERVER_CLIENT_H
 #define HCCSERVER_CLIENT_H
 
-#include "base/Buffer.h"
+#include "Buffer.h"
 class Client {
 public:
     Client();

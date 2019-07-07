@@ -7,8 +7,8 @@
 #include <memory>
 #include "AcceptThread.h"
 #include "CellTask.h"
-Connection::Connection(int fd,struct sockaddr_in clientAddr, AcceptThread* acceptThread):
-        _fd(fd),_clientAddr(clientAddr),_acceptThread(acceptThread),
+Connection::Connection(int fd,struct sockaddr_in clientAddr):
+        _fd(fd),_clientAddr(clientAddr),_acceptThread(),
         _expiredTime(20),_channel(new Channel(fd)),_buffer(fd,this){
 
     _channel->setReadHandler(std::bind(&Connection::handleRead,this));
@@ -35,7 +35,7 @@ int getPort(){
     return 1008;
 }
 void Connection::handleRead(){
-/*
+
     std::vector<std::string> msgs=_buffer.readStream();
     // 基于当前系统的当前日期/时间
     //time_t now = time(0);
@@ -43,10 +43,10 @@ void Connection::handleRead(){
         //std::cout<<ctime(&now)<<"  "<<inet_ntoa(_clientAddr.sin_addr)<<"-"<<ntohs(_clientAddr.sin_port)
         //         <<":"<<msg<<std::endl;
         std::shared_ptr<CellTask> cellTaskptr(new CellTask(msg,shared_from_this()));
-        _acceptThread->getTaskQueue()->push(cellTaskptr);
-    }*/
-    std::string msg=_buffer.readSimple();
-    std::cout<<msg<<std::endl;
+        getAcceptThread()->getTaskQueue()->push(cellTaskptr);
+    }
+    //std::string msg=_buffer.readSimple();
+    //std::cout<<msg<<std::endl;
 }
 
 void Connection::handleWrite(){
@@ -66,17 +66,23 @@ int Connection::flushBuffer(){
     //std::cout<<"Connection::flushBuffer()"<<std::endl;
     return _buffer.flushSend();
 }
-AcceptThread* Connection::getAcceptThread(){
-    return _acceptThread;
+std::shared_ptr<AcceptThread> Connection::getAcceptThread(){
+    return _acceptThread.lock();
 }
 void Connection::openListenEvent(){
     _channel->addEvents(EPOLLOUT);
-    _acceptThread->getEpoll()->updateChannel(_channel);
+    getAcceptThread()->getEpoll()->updateChannel(_channel);
 }
 void Connection::closeListenEvent(){
     _channel->removeEvents(EPOLLOUT);
-    _acceptThread->getEpoll()->updateChannel(_channel);
+    getAcceptThread()->getEpoll()->updateChannel(_channel);
 }
 int Connection::writeBuffer(std::string result){
     _buffer.write(result);
+}
+
+void Connection::setAcceptThread(std::shared_ptr<AcceptThread> acceptThread){
+    std::cout<<"Connection::setAcceptThread"<<std::endl;
+    _acceptThread=acceptThread;
+    std::cout<<"Connection::setAcceptThread end"<<std::endl;
 }
