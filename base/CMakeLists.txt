@@ -7,5 +7,4 @@ include_directories(
         ${PROJECT_SOURCE_DIR}/task
         ${PROJECT_SOURCE_DIR}/thread
 )
-
 add_library(base_lib SHARED Buffer.cpp Timer.cpp Util.cpp)
