@@ -5,6 +5,12 @@
 #include "CellTask.h"
 #include "../net/Connection.h"
 
+CellTask::CellTask(const std::string& msg,std::shared_ptr<Connection> conn):_msg(msg),_conn(conn){
+
+}
+CellTask::~CellTask() {
+
+}
 std::string CellTask::getTask(){
     return _msg;
 }

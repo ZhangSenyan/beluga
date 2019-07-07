@@ -20,10 +20,7 @@ void AcceptThread::startLoop(){
     _t.detach();
 }
 void AcceptThread::HandleLoop(){
-    std::cout<<" HandleLoop ... "<<std::endl;
     while(_runing){
-
-        std::cout<<"Looping ... "<<std::endl;
         Epoll::VectorCh channels=_epoll.poll();
         for(auto channel:channels){
             channel->handleEvents();
@@ -44,11 +41,17 @@ std::set<std::shared_ptr<Connection>>& AcceptThread::getConnSet(){
     return connSet;
 }
 void AcceptThread::flushBuffer(){
-    std::cout<<"flushBuffer"<<std::endl;
+
     for(auto conn:connSet){
         conn->flushBuffer();
     }
 }
 Epoll* AcceptThread::getEpoll(){
     return &_epoll;
+}
+void AcceptThread::setTaskQueue(std::shared_ptr<TaskQueue> taskQueue){
+    _taskQueue=taskQueue;
+}
+std::shared_ptr<TaskQueue> AcceptThread::getTaskQueue(){
+    return _taskQueue;
 }

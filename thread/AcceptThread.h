@@ -14,6 +14,7 @@
 
 #include "../net/Epoll.h"
 #include "../base/Timer.h"
+#include "../task/TaskQueue.h"
 
 class AcceptThread {
 public:
@@ -26,12 +27,15 @@ public:
     std::set<std::shared_ptr<Connection>>& getConnSet();
     void flushBuffer();
     Epoll* getEpoll();
+    void setTaskQueue(std::shared_ptr<TaskQueue> taskQueue);
+    std::shared_ptr<TaskQueue> getTaskQueue();
 private:
     Epoll _epoll;
     Timer _timer;
     bool _runing;
     std::thread _t;
     std::set<std::shared_ptr<Connection>> connSet;
+    std::shared_ptr<TaskQueue> _taskQueue;
 };
 
 

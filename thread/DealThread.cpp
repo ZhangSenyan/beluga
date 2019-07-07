@@ -14,16 +14,17 @@ DealThread::~DealThread(){
 
 }
 void DealThread::startLoop(){
-    std::cout<<" start Loop ... "<<std::endl;
+    //std::cout<<" start Loop ... "<<std::endl;
     _t.detach();
 }
 void DealThread::HandleLoop(){
-    std::cout<<" HandleLoop ... "<<std::endl;
+    //std::cout<<" HandleLoop ... "<<std::endl;
     while(_runing){
-        std::cout<<"Looping ... "<<std::endl;
+        //std::cout<<"Looping ... "<<std::endl;
         CellTaskPtr cellTask=_taskQueue->pop();
         std::string task=cellTask->getTask();
-        std::string result="Result of : "+task;
+        std::string result(task.rbegin(),task.rend());
+        //std::cout<<result<<std::endl;
         cellTask->respond(result);
     }
 }

@@ -4,7 +4,9 @@
 
 #include "Connection.h"
 #include <functional>
+#include <memory>
 #include "../thread/AcceptThread.h"
+#include "../task/CellTask.h"
 Connection::Connection(int fd,struct sockaddr_in clientAddr, AcceptThread* acceptThread):
         _fd(fd),_clientAddr(clientAddr),_acceptThread(acceptThread),
         _expiredTime(20),_channel(new Channel(fd)),_buffer(fd,this){
@@ -36,11 +38,12 @@ void Connection::handleRead(){
 
     std::vector<std::string> msgs=_buffer.readStream();
     // 基于当前系统的当前日期/时间
-    time_t now = time(0);
+    //time_t now = time(0);
     for(auto msg:msgs){
-        std::cout<<ctime(&now)<<"  "<<inet_ntoa(_clientAddr.sin_addr)<<"-"<<ntohs(_clientAddr.sin_port)
-                 <<":"<<msg<<std::endl;
-        _buffer.write(msg);
+        //std::cout<<ctime(&now)<<"  "<<inet_ntoa(_clientAddr.sin_addr)<<"-"<<ntohs(_clientAddr.sin_port)
+        //         <<":"<<msg<<std::endl;
+        std::shared_ptr<CellTask> cellTaskptr(new CellTask(msg,shared_from_this()));
+        _acceptThread->getTaskQueue()->push(cellTaskptr);
     }
 }
 
@@ -58,7 +61,7 @@ std::shared_ptr<Channel> Connection::getChannel(){
     return _channel;
 }
 int Connection::flushBuffer(){
-    std::cout<<"Connection::flushBuffer()"<<std::endl;
+    //std::cout<<"Connection::flushBuffer()"<<std::endl;
     return _buffer.flushSend();
 }
 AcceptThread* Connection::getAcceptThread(){

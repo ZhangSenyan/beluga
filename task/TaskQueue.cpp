@@ -19,6 +19,7 @@ bool TaskQueue::push(CellTaskPtr cellTaskPtr){
     _cv.notify_all();
     return true;
 }
+
 TaskQueue::CellTaskPtr TaskQueue::pop(){
     std::unique_lock<std::mutex> l(_mutex);
     /*

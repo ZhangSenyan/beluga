@@ -14,12 +14,14 @@ add_executable(HCCServer main.cpp net/Epoll.cpp net/Epoll.h thread/AcceptThread.
          net/Connection.h base/Buffer.cpp base/Buffer.h base/Timer.cpp base/Timer.h thread/DealThread.cpp thread/DealThread.h
           task/CellTask.cpp task/CellTask.h task/TaskQueue.h task/TaskQueue.cpp)
 
-add_executable(Client Client.cpp base/Buffer.cpp base/Buffer.h base/Util.cpp base/Util.h net/Connection.cpp net/Connection.h
-        thread/AcceptThread.cpp thread/AcceptThread.h net/Channel.cpp net/Channel.h net/Epoll.cpp net/Epoll.h)
+add_executable(client test/client10K.cpp base/Buffer.cpp base/Buffer.h base/Util.cpp base/Util.h net/Connection.cpp net/Connection.h
+        thread/AcceptThread.cpp thread/AcceptThread.h net/Channel.cpp net/Channel.h net/Epoll.cpp net/Epoll.h task/CellTask.h
+        task/CellTask.cpp task/TaskQueue.cpp task/TaskQueue.h Client.cpp Client.h Application/HTTPWorker.cpp Application/HTTPWorker.h)
 add_executable(TimerTest TimerTest.cpp)
 
 #add_executable(TestThread test/testThread.cpp net/Epoll.cpp net/Epoll.h)
 target_link_libraries(HCCServer Threads::Threads)
+target_link_libraries(client Threads::Threads)
 
 
 

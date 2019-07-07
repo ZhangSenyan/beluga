@@ -1,10 +1,10 @@
 #include "Epoll.h"
-#include <string.h>
+#include <cstring>
 //
 // Created by zhsy on 19-6-8.
 //
 
-Epoll::Epoll(int size):_waitFd(epoll_create(size)){
+Epoll::Epoll(int size):_waitFd(epoll_create(size)),_events(){
 
 }
 
@@ -50,7 +50,6 @@ bool Epoll::removeChannel(ptrChannel){
 
 Epoll::VectorCh Epoll::poll(){
     int nfds = epoll_wait(_waitFd, _events, 100, -1);
-    std::cout<<"recv nfds="<<nfds<<std::endl;
     if (nfds == -1)
     {
         perror("epoll_wait");

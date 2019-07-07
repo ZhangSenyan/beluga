@@ -10,8 +10,11 @@
 #include "net/Connection.h"
 
 
-Server::Server(int port):_listenFd(socketCreate(port)),_running(false),_acceptThread(10000,50),_conns(){
+Server::Server(int port):_listenFd(socketCreate(port)),_running(false),_acceptThread(10000,50),
+        _conns(),_dealThread(),_taskQueue(new TaskQueue()){
     std::cout<<"Create Socket: Port="<<port<<std::endl;
+    _acceptThread.setTaskQueue(_taskQueue);
+    _dealThread.setTaskQueue(_taskQueue);
 
 }
 Server::~Server(){

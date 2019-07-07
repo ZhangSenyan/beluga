@@ -13,7 +13,7 @@
 using namespace std;
 int main() {
 
-    Server server(10000);
+    Server server(9000);
     server.startListen();
 
 

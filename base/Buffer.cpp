@@ -42,7 +42,7 @@ int Buffer::write(const char* str){
 
 int Buffer::write(const char* str,uint32_t len){
     MutexLockGuard lock(_mutex);
-
+    //std::cout<<"write()"<<std::endl;
     if(len+4>BUFFER_SIZE-sendIndexEnd)
         return -1;
     //设置头端
@@ -70,17 +70,17 @@ int Buffer::write(const char* str,uint32_t len){
  *
  * */
 int Buffer::flushSend(){
-
+    //std::cout<<"flushSend()"<<std::endl;
     MutexLockGuard lock(_mutex);
 
     if(sendIndexEnd==0){
         //当前缓冲区为空
-        std::cout<<"Buffer flushSend()  num="<<0<<std::endl;
+        //std::cout<<"Buffer flushSend()  num="<<0<<std::endl;
         return 0;
     }
 
     int ret=writen(_fd,sendbuffer,(size_t )sendIndexEnd);
-    std::cout<<"Buffer flushSend()  num="<<ret<<std::endl;
+    //std::cout<<"Buffer flushSend()  num="<<ret<<std::endl;
     if(ret==-1)
         //写入0字节
         return -1;
@@ -102,10 +102,9 @@ bool Buffer::empty() {
  * 读的时候不需要加锁
  * */
 std::vector<std::string> Buffer::readStream(){
-    std::cout<<"readStream()"<<std::endl;
+    //std::cout<<"readStream()"<<std::endl;
     std::vector<std::string> retV;
     int retn=readn(_fd,recvbuffer+recvIndexEnd,BUFFER_SIZE-recvIndexEnd);
-    std::cout<<"retn= "<<retn<<std::endl;
     if(retn==-1)
         return retV;
     recvIndexEnd+=retn;

@@ -34,6 +34,7 @@ public:
         //std::cout<<"timer handle read"<<std::endl;
         uint64_t exp = 0;
         read(timefd, &exp, sizeof(uint64_t));
+
         _flushBufferHandler();
     }
     void handleWrite(){

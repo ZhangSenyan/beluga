@@ -19,7 +19,7 @@ class CellTask;
 
 class AcceptThread;
 
-struct Connection{
+struct Connection:std::enable_shared_from_this<Connection>{
 public:
     Connection(int fd,struct sockaddr_in clientAddr,AcceptThread *acceptThread);
     ~Connection();
