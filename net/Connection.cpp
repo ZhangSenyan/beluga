@@ -5,8 +5,8 @@
 #include "Connection.h"
 #include <functional>
 #include <memory>
-#include "../thread/AcceptThread.h"
-#include "../task/CellTask.h"
+#include "AcceptThread.h"
+#include "CellTask.h"
 Connection::Connection(int fd,struct sockaddr_in clientAddr, AcceptThread* acceptThread):
         _fd(fd),_clientAddr(clientAddr),_acceptThread(acceptThread),
         _expiredTime(20),_channel(new Channel(fd)),_buffer(fd,this){
@@ -35,7 +35,7 @@ int getPort(){
     return 1008;
 }
 void Connection::handleRead(){
-
+/*
     std::vector<std::string> msgs=_buffer.readStream();
     // 基于当前系统的当前日期/时间
     //time_t now = time(0);
@@ -44,7 +44,9 @@ void Connection::handleRead(){
         //         <<":"<<msg<<std::endl;
         std::shared_ptr<CellTask> cellTaskptr(new CellTask(msg,shared_from_this()));
         _acceptThread->getTaskQueue()->push(cellTaskptr);
-    }
+    }*/
+    std::string msg=_buffer.readSimple();
+    std::cout<<msg<<std::endl;
 }
 
 void Connection::handleWrite(){

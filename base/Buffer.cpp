@@ -9,10 +9,11 @@
 #include <arpa/inet.h>
 #include <string>
 #include <vector>
-#include <stdlib.h>
+#include <cstdlib>
+#include <cstdint>
+
 #include "Util.h"
-#include <stdint.h>
-#include "../net/Connection.h"
+#include "Connection.h"
 
 #define BUFFER_SIZE 4096
 Buffer::Buffer(int fd,Connection *holder):_fd(fd),recvIndexEnd(0),sendIndexEnd(0),_holder(holder){
@@ -92,10 +93,7 @@ int Buffer::flushSend(){
     return ret;
 }
 bool Buffer::empty() {
-    if(sendIndexEnd==0)
-        return true;
-    else
-        return false;
+    return 0==sendIndexEnd;
 }
 /*
  * 读写缓冲区分离
@@ -114,7 +112,7 @@ std::vector<std::string> Buffer::readStream(){
         recvIndexBegin+=4;
         if(len>recvIndexEnd-recvIndexBegin)
             break;
-        retV.push_back(std::string(recvbuffer+recvIndexBegin,recvbuffer+recvIndexBegin+len));
+        retV.emplace_back(std::string(recvbuffer+recvIndexBegin,recvbuffer+recvIndexBegin+len));
         recvIndexBegin+=len;
     }
     if(recvIndexBegin==recvIndexEnd){
@@ -125,4 +123,13 @@ std::vector<std::string> Buffer::readStream(){
         recvIndexEnd-=recvIndexBegin;
     }
     return retV;
+}
+
+std::string Buffer::readSimple(){
+    //std::cout<<"readStimple()"<<std::endl;
+
+    int retn=readn(_fd,recvbuffer,BUFFER_SIZE);
+    if(retn==-1)
+        return "";
+    return std::string(recvbuffer,recvbuffer+retn);
 }

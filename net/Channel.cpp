@@ -4,14 +4,14 @@
 
 #include "Channel.h"
 #include "Connection.h"
-#include "../thread/AcceptThread.h"
-Channel::Channel(int fd):_fd(fd){
+#include "AcceptThread.h"
+Channel::Channel(int fd):_fd(fd),_events(0),_revents(0){
 
 }
 Channel::~Channel(){
 
 }
-void Channel::setHolder(std::shared_ptr<Connection> holder){
+void Channel::setHolder(const std::shared_ptr<Connection> &holder){
     _holder=holder;
 }
 void Channel::setReadHandler(CallFunc readhandler){
@@ -72,7 +72,7 @@ void Channel::setRevents(__uint32_t revents){
     _revents=revents;
 }
 void Channel::addEvents(__uint32_t events){
-    _events=_events|events;;
+    _events=_events|events;
 }
 void Channel::removeEvents(__uint32_t events){
     _events=_events & (~events);

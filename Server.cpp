@@ -7,7 +7,7 @@
 #include <cstring>
 #include <arpa/inet.h>
 #include <iostream>
-#include "net/Connection.h"
+#include "Connection.h"
 
 
 Server::Server(int port):_listenFd(socketCreate(port)),_running(false),_acceptThread(10000,50),

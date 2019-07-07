@@ -15,7 +15,7 @@
 class Channel;
 class CellTask;
 
-#include "../base/Buffer.h"
+#include "Buffer.h"
 
 class AcceptThread;
 

@@ -6,7 +6,7 @@
 #define HCCSERVER_UTIL_H
 
 
-#include <stdio.h>
+#include <cstdio>
 
 extern int socketCreate(int port);
 extern int setnonblocking(int sockfd);

@@ -3,13 +3,13 @@
 //
 
 #include "AcceptThread.h"
-#include "../net/Connection.h"
+#include "Connection.h"
 
 AcceptThread::AcceptThread(int size,int timer_ms):_epoll(size),_runing(true),
                                              _t(std::mem_fun(&AcceptThread::HandleLoop),this),_timer(timer_ms){
     _timer.setHolder(this);
     _timer.getChannel()->setEvents(EPOLLIN | EPOLLET);
-    _timer.setFlushBufferHandler(std::bind(&AcceptThread::flushBuffer,this));
+    _timer.setTimeHandler(std::bind(&AcceptThread::flushBuffer,this));
     _epoll.addChannel(_timer.getChannel());
 }
 AcceptThread::~AcceptThread(){
@@ -27,6 +27,7 @@ void AcceptThread::HandleLoop(){
         }
     }
 }
+
 void AcceptThread::addChannel(Epoll::ptrChannel channel){
     _epoll.addChannel(channel);
 }

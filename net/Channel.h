@@ -27,7 +27,7 @@ private:
     std::weak_ptr<Connection> _holder;
 
 public:
-    void setHolder(std::shared_ptr<Connection> holder);
+    void setHolder(const std::shared_ptr<Connection> &holder);
     void setReadHandler(CallFunc readhandler);
     void setWriteHandler(CallFunc writehandler);
     void setErrorHandler(CallFunc errorhandler);

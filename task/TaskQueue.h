@@ -13,12 +13,12 @@
 #include <mutex>
 
 #include "CellTask.h"
-#include "../base/noncopyable.h"
+#include "noncopyable.h"
 
 class TaskQueue:noncopyable {
 public:
     typedef std::shared_ptr<CellTask> CellTaskPtr;
-    TaskQueue(size_t maxSize=100000);
+    explicit TaskQueue(size_t maxSize=100000);
     ~TaskQueue();
     bool push(CellTaskPtr cellTaskPtr);
     CellTaskPtr pop();

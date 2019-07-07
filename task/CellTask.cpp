@@ -3,9 +3,10 @@
 //
 
 #include "CellTask.h"
-#include "../net/Connection.h"
+#include "Connection.h"
 
-CellTask::CellTask(const std::string& msg,std::shared_ptr<Connection> conn):_msg(msg),_conn(conn){
+CellTask::CellTask(std::string msg,std::shared_ptr<Connection> conn)
+:_msg(std::move(msg)),_conn(std::move(conn)){
 
 }
 CellTask::~CellTask() {
@@ -16,5 +17,5 @@ std::string CellTask::getTask(){
 }
 
 void CellTask::respond(std::string result){
-    _conn->writeBuffer(result);
+    _conn->writeBuffer(std::move(result));
 }

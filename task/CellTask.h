@@ -12,7 +12,7 @@ class Connection;
 
 class CellTask {
 public:
-    CellTask(const std::string& msg,std::shared_ptr<Connection> conn);
+    CellTask(std::string msg,std::shared_ptr<Connection> conn);
     ~CellTask();
     std::string getTask();
     void respond(std::string result);

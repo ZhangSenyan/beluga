@@ -4,10 +4,10 @@
 #include <string>
 #include "DealThread.h"
 
-#include "../task/CellTask.h"
-#include "../task/TaskQueue.h"
+#include "CellTask.h"
+#include "TaskQueue.h"
 
-DealThread::DealThread():_t(std::mem_fun(&DealThread::HandleLoop),this){
+DealThread::DealThread():_runing(true),_t(std::mem_fun(&DealThread::HandleLoop),this){
 
 }
 DealThread::~DealThread(){
@@ -29,5 +29,5 @@ void DealThread::HandleLoop(){
     }
 }
 void DealThread::setTaskQueue(TaskQueuePtr taskQueue){
-    _taskQueue=taskQueue;
+    _taskQueue=std::move(taskQueue);
 }

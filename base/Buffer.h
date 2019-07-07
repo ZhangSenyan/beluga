@@ -14,7 +14,7 @@
 class Connection;
 class Buffer {
 public:
-    Buffer(int fd,Connection* holder=NULL);
+    explicit Buffer(int fd,Connection* holder= nullptr);
     ~Buffer();
     /*
      * 返回值为0,代表写入成功
@@ -26,6 +26,7 @@ public:
     int flushSend();
     bool empty();
     std::vector<std::string> readStream();
+    std::string readSimple();
 private:
     size_t recvIndexEnd;
     size_t sendIndexEnd;
