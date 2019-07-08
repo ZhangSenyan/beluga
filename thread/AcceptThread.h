@@ -37,4 +37,3 @@ private:
 
 
 #endif //HCCSERVER_ACCEPTTHREAD_H
-

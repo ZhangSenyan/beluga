@@ -28,6 +28,4 @@ private:
     std::shared_ptr<TaskQueue> _taskQueue;
 };
 
-
-
 #endif //HCCSERVER_DEALTHREAD_H

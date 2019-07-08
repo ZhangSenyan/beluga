@@ -32,6 +32,4 @@ private:
     std::vector<std::shared_ptr<DealThread>> _threads;
 };
 
-
-
 #endif //HCCSERVER_DEALTHREADPOOL_H

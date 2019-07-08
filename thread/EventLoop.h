@@ -34,6 +34,4 @@ private:
     std::thread _t;
 };
 
-
-
 #endif //HCCSERVER_EVENTLOOP_H
