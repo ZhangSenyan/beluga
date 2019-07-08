@@ -34,6 +34,8 @@ void DealThread::HandleLoop(){
 
     }
 }
+
+
 void DealThread::setTaskQueue(TaskQueuePtr taskQueue){
     _taskQueue=std::move(taskQueue);
 }
