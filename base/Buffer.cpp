@@ -22,6 +22,7 @@ Buffer::Buffer(int fd,Connection *holder):_fd(fd),recvIndexEnd(0),sendIndexEnd(0
 
 }
 Buffer::~Buffer(){
+    std::cout<<"~Buffer()"<<std::endl;
     delete recvbuffer;
     delete sendbuffer;
 }

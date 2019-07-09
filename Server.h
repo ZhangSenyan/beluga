@@ -28,8 +28,6 @@ private:
     AcceptThreadPool _acceptThreads;
     DealThreadPool _dealThreads;
     std::shared_ptr<TaskQueue> _taskQueue;
-    std::set<std::shared_ptr<Connection> > _conns;
-
 };
 
 

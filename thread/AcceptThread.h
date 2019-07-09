@@ -14,24 +14,29 @@
 
 #include "EventLoop.h"
 #include "TaskQueue.h"
-
+#include "TimingWheel.h"
 class AcceptThread :public EventLoop{
 public:
     AcceptThread(int size=10000,int timer_ms=50);
     ~AcceptThread();
 
     void addConnction(std::shared_ptr<Connection> conn);
-
+    void removeConnction(std::shared_ptr<Connection> conn);
+    void removeConnction(int fd);
     void timerHandle() override ;
-
+    void timerHandle50();
+    void timerHandle1000();
     void setTaskQueue(std::shared_ptr<TaskQueue> taskQueue);
     std::shared_ptr<TaskQueue> getTaskQueue();
-    std::set<std::shared_ptr<Connection>>& getConnSet();
+    std::map<int ,std::shared_ptr<Connection>>& getConnMap();
     int getConnSize();
+    int updateConn(Connection::ConnPtr conn);
 private:
 
-    std::set<std::shared_ptr<Connection>> connSet;
+    std::map<int,std::shared_ptr<Connection>> connMap;
     std::shared_ptr<TaskQueue> _taskQueue;
+    TimingWheel _timingWheel;
+    int _timeCount;
     
 };
 

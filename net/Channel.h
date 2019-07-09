@@ -40,6 +40,7 @@ public:
     void addEvents(__uint32_t events);
     void removeEvents(__uint32_t events);
     void updateEvents();
+    bool expired();
 };
 
 

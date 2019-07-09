@@ -9,7 +9,7 @@
 #include "Client.h"
 
 using namespace std;
-#define OPEN_MAX 50000
+#define OPEN_MAX 2000
 
 int main(){
     struct pollfd fds[OPEN_MAX];
@@ -21,9 +21,12 @@ int main(){
     int i=0;
     for(;i<OPEN_MAX-10;i++){
         std::shared_ptr<Client> pClient(new Client());
-        clientSet[pClient->getFD()]=pClient;
+
         fds[i].fd=pClient->getFD();
         fds[i].events = POLLIN;
+        if(i<0.9*OPEN_MAX){
+            clientSet[pClient->getFD()]=pClient;
+        }
     }
     int timefdIndex=i++;
     int timefd=timerfd_init(1000);

@@ -30,7 +30,7 @@ public:
     int updateChannel(ptrChannel channel);
 
     VectorCh poll();
-
+    bool find(ptrChannel channel);
 
 private:
     int _waitFd;

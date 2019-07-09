@@ -27,7 +27,7 @@ public:
     int putConnection(std::shared_ptr<Connection> conn){
         if(_connNum>_maxNum)
             return -1;
-        std::shared_ptr<AcceptThread> acceptThread(std::move(getMinConnThread()));
+        std::shared_ptr<AcceptThread> acceptThread(getMinConnThread());
         acceptThread->addConnction(conn);
         conn->setAcceptThread(acceptThread);
         _connNum++;

@@ -21,6 +21,7 @@ class AcceptThread;
 
 struct Connection:std::enable_shared_from_this<Connection>{
 public:
+    typedef std::shared_ptr<Connection> ConnPtr;
     Connection(int fd,struct sockaddr_in clientAddr);
     ~Connection();
     int getFd();

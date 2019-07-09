@@ -18,7 +18,9 @@ Connection::Connection(int fd,struct sockaddr_in clientAddr):
 }
 
 Connection::~Connection() {
-
+    close(_fd);
+    //std::cout<<"Drop connection : IP="<<getIP()<<" Port="<<getPort()<<std::endl;
+    std::cout<<"Drop connection : "<<std::endl;
 }
 
 int Connection::getFd(){
@@ -28,13 +30,20 @@ int Connection::getFd(){
 void Connection::setFd(int fd){
     _fd=fd;
 }
-std::string getIP(){
-    return "192.168.1.2";
+std::string Connection::getIP(){
+    return inet_ntoa(_clientAddr.sin_addr);
 }
-int getPort(){
-    return 1008;
+int Connection::getPort(){
+    return ntohs(_clientAddr.sin_port);
 }
 void Connection::handleRead(){
+    assert(!_acceptThread.expired());
+    std::shared_ptr<AcceptThread> acceptThread=_acceptThread.lock();
+
+    std::shared_ptr<TaskQueue> taskQueen=acceptThread->getTaskQueue();
+
+    //更新时间轮-心跳检测
+    acceptThread->updateConn(shared_from_this());
 
     std::vector<std::string> msgs=_buffer.readStream();
     // 基于当前系统的当前日期/时间
@@ -43,7 +52,7 @@ void Connection::handleRead(){
         //std::cout<<ctime(&now)<<"  "<<inet_ntoa(_clientAddr.sin_addr)<<"-"<<ntohs(_clientAddr.sin_port)
         //         <<":"<<msg<<std::endl;
         std::shared_ptr<CellTask> cellTaskptr(new CellTask(msg,shared_from_this()));
-        getAcceptThread()->getTaskQueue()->push(cellTaskptr);
+        taskQueen->push(cellTaskptr);
     }
     //std::string msg=_buffer.readSimple();
     //std::cout<<msg<<std::endl;
@@ -78,6 +87,7 @@ void Connection::closeListenEvent(){
     getAcceptThread()->getEpoll()->updateChannel(_channel);
 }
 int Connection::writeBuffer(std::string result){
+
     _buffer.write(result);
 }
 

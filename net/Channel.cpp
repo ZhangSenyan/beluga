@@ -82,3 +82,6 @@ void Channel::updateEvents(){
     std::shared_ptr<Connection> holder=_holder.lock();
     holder->getAcceptThread()->getEpoll()->updateChannel(shared_from_this());*/
 }
+bool Channel::expired(){
+    return _holder.expired();
+}

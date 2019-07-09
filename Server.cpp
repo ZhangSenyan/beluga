@@ -12,7 +12,7 @@
 
 
 Server::Server(int port):_listenFd(socketCreate(port)),_running(false),_acceptThreads(4,150000),
-        _conns(),_dealThreads(8),_taskQueue(new TaskQueue()){
+        _dealThreads(8),_taskQueue(new TaskQueue()){
     std::cout<<"Create Socket: Port="<<port<<std::endl;
     _acceptThreads.setTaskQueue(_taskQueue);
     _dealThreads.setTaskQueue(_taskQueue);
@@ -43,10 +43,8 @@ void Server::startListen(){
         if (setnonblocking(connFd) < 0) {
             perror("setnonblock error");
         }
-
-        std::shared_ptr<Connection> conn(new Connection(connFd,client_addr));
-        _conns.insert(conn);
-        _acceptThreads.putConnection(conn);
+        _acceptThreads.putConnection(std::shared_ptr<Connection>
+                (new Connection(connFd,client_addr)));
 
     }
 }
