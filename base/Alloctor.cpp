@@ -1,21 +1,28 @@
+#include <iostream>
+#include"MemoryPool.h"
+
 #include"Alloctor.h"
-#include"MemoryMgr.hpp"
 
 void* operator new(size_t size)
 {
-	return MemoryMgr::Instance.allocMem(nSize);
+    //std::cout<<"operator new size="<<size<<std::endl;
+    return MemoryPool::instance().alloc(size);
 }
-void operator delete(void* p)
+void operator delete(void* p) noexcept
 {
-	MemoryMgr::Instance.freeMem(p);
+    //std::cout<<"operator delete"<<std::endl;
+    return MemoryPool::instance().free(p);
 }
+
 void* operator new[](size_t size)
 {
-	return MemoryMgr::Instance.allocMem(size);
+    //std::cout<<"MemoryPool::instance().alloc(size)="<<size<<std::endl;
+    return MemoryPool::instance().alloc(size);
 }
-void operator delete[](void* p)
+void operator delete[](void* p) noexcept
 {
-	MemoryMgr::Instance.freeMem(p);
+    //std::cout<<"operator delete[]"<<std::endl;
+    return MemoryPool::instance().free(p);
 }
 void* mem_alloc(size_t size)
 {

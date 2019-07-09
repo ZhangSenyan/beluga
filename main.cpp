@@ -9,6 +9,8 @@
 #include<cstring>
 #include<arpa/inet.h>
 #include "Server.h"
+//#include "Alloctor.h"
+
 /*第一次测试*/
 using namespace std;
 int main() {

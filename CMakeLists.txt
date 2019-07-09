@@ -39,7 +39,14 @@ target_link_libraries(client
         net_lib
         Threads::Threads
 )
-
+add_executable(testMem testMem.cpp Server.cpp Client.cpp)
+target_link_libraries(testMem
+        base_lib
+        thread_lib
+        task_lib
+        net_lib
+        Threads::Threads
+        )
 
 
 
