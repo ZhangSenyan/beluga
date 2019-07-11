@@ -10,12 +10,12 @@ install:
 env:
   - BUILD_TYPE=debug
   - BUILD_TYPE=release
-  global:
-    - CI_HOME=`pwd`
+
 script:
+  - SOURCE_DIR=`pwd`
   - g++ --version
   - cmake --version
-  - cd CI_HOME
+  - cd SOURCE_DIR
   - pwd
   - mkdir build
   - cd build
