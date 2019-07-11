@@ -9,25 +9,11 @@
 #include "DealThread.h"
 class DealThreadPool {
 public:
-    DealThreadPool(int size)
-    {
-        for(int i=0;i<size;i++){
-            _threads.emplace_back(new DealThread());
-        }
-    }
-    ~DealThreadPool(){
-        
-    }
-    void setTaskQueue(std::shared_ptr<TaskQueue> taskQueue){
-        for(auto thread:_threads){
-            thread->setTaskQueue(taskQueue);
-        }
-    }
-    void startLoop(){
-        for(auto thread:_threads){
-            thread->startLoop();
-        }
-    }
+    DealThreadPool(int size);
+    ~DealThreadPool();
+    void setTaskQueue(std::shared_ptr<TaskQueue> taskQueue);
+    void startLoop();
+    void setMessageCallBack(DealThread::WorkFunctor workFunctor);
 private:
     std::vector<std::shared_ptr<DealThread>> _threads;
 };

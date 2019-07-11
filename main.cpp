@@ -9,15 +9,18 @@
 #include<cstring>
 #include<arpa/inet.h>
 #include "Server.h"
-//#include "Alloctor.h"
+#include "LogStream.h"
 
-/*第一次测试*/
+
+std::string onMessage(std::string msg){
+    return msg;
+}
+
 using namespace std;
 int main() {
-
+    LOG.resetPath("/home/zhsy/work/ClionWorkspace/beluga/log/LogTest.log");
     Server server(9000);
+    server.setMessageCallBack(onMessage);
     server.startListen();
-
-
     return 0;
 }

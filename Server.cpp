@@ -51,3 +51,6 @@ void Server::startListen(){
 void Server::quit(){
     _running=false;
 }
+void Server::setMessageCallBack(WorkFunctor onMessage){
+    _dealThreads.setMessageCallBack(onMessage);
+}

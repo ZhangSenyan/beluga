@@ -14,6 +14,7 @@ class TaskQueue;
 class CellTask;
 class Server {
 public:
+    typedef std::function<std::string(std::string)> WorkFunctor;
     typedef std::shared_ptr<CellTask> PtrCellTask;
     typedef std::shared_ptr<char> PtrChar;
     typedef std::function<int(PtrCellTask,PtrChar)> Dealer;
@@ -22,12 +23,14 @@ public:
     int registerDealer(Dealer dealer);
     void startListen();
     void quit();
+    void setMessageCallBack(WorkFunctor onMessage);
 private:
     int _listenFd;
     bool _running;
     AcceptThreadPool _acceptThreads;
     DealThreadPool _dealThreads;
     std::shared_ptr<TaskQueue> _taskQueue;
+
 };
 
 

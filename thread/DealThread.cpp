@@ -27,7 +27,7 @@ void DealThread::HandleLoop(){
         if(_taskQueue.get()){
             CellTaskPtr cellTask=_taskQueue->pop();
             std::string task=cellTask->getTask();
-            std::string result(task.rbegin(),task.rend());
+            std::string result=_workFunctor(task);
             //std::cout<<result<<std::endl;
             cellTask->respond(result);
         }
@@ -35,7 +35,9 @@ void DealThread::HandleLoop(){
     }
 }
 
-
 void DealThread::setTaskQueue(TaskQueuePtr taskQueue){
     _taskQueue=std::move(taskQueue);
+}
+void DealThread::setMessageCallBack(WorkFunctor workFunctor){
+    _workFunctor=workFunctor;
 }
