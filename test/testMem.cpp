@@ -9,7 +9,7 @@
 int main(){
     std::shared_ptr<int> a;
     std::cout<<"a"<<std::endl;
-    a=std::make_shared<int>(new int(8));
+    a=std::shared_ptr<int>(new int(8));
     std::cout<<"b"<<std::endl;
     std::weak_ptr<int> p;
     std::cout<<"c"<<std::endl;
