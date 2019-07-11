@@ -8,7 +8,7 @@ int main(){
 
     /*AsynLogging asynLogging;
 
-    asynLogging.setLogPath("/home/zhsy/work/ClionWorkspace/HCCServer/log/LogTest.log");
+    asynLogging.setLogPath("/home/zhsy/work/ClionWorkspace/beluga/log/LogTest.log");
     asynLogging.startLoop();
 
     std::string s="jfdksjfkliseurmlkjfdogidsjoig\n";
@@ -22,7 +22,7 @@ int main(){
 
     }*/
    // LogStream logStream;
-    LOG.resetPath("/home/zhsy/work/ClionWorkspace/HCCServer/log/LogTest.log");
+    LOG.resetPath("/home/zhsy/work/ClionWorkspace/beluga/log/LogTest.log");
     size_t count=0;
 
     while(1){

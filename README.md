@@ -10,14 +10,16 @@ beluga 基于事件驱动，采用非阻塞IO，整体框架由mainReactor,SubRe
 * IO线程采用EPOLL边沿触发多路复用技术，非阻塞IO
 * 主线程接收创建连接后以Least Connections方式，分发给IO线程
 * 采用双任务队列机制，实现紧急任务优先处理
-* 基于时间轮机制实现心跳检测，剔除超时连接
+* 基于时间轮机制和哈希表实现心跳检测，剔除超时连接
 * 为了避免内存泄漏和野指针，重复delete等问题，对于线程间对象使用智能指针等RALL机制
 * 支持定时定量发送数据
 * 采用异步日志系统，基于buffer对象池实现日志快速写入
 * 内存池采用动态倍增扩容机制以及lazy加载模式，最大限度节省内存开销，提高内存申请速率
 * 采用多线程和线程池，充分利用多核CPU，减少线程频繁创建带来的开销
 
-
+# Model
+## Multiple Reactors
+![Multiple Reactors](https://github.com/SenyanZhang/beluga)
 # Build
 ```cpp
 git clone --recursive https://github.com/SenyanZhang/beluga.git
@@ -27,7 +29,7 @@ cd build
 cmake ..
 make
 ```
-# Model
+
 
 # Log
 
