@@ -1,5 +1,13 @@
+# beluga (a simple C++ network library) 
+
+# Introduction
+beluga是一款小型的C++网络库，支持高并发，多线程，用于实现高性能网络服务。
+# Technical points
+
+# Build
+
 # HCCServer
-A High Concurrency Server
+
 1. Buffer的设计
 2. 定时定量发送
     基于time_fd定期刷新发送缓冲区，如果到达间隔时间或者
