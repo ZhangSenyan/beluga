@@ -15,7 +15,7 @@ class AcceptThreadPool {
 public:
     AcceptThreadPool(int size,int maxConnSize);
     void setTaskQueue(const std::shared_ptr<TaskQueue>& taskQueue);
-    int putConnection(std::shared_ptr<Connection>& conn);
+    int putConnection(std::shared_ptr<Connection> conn);
     std::shared_ptr<AcceptThread> getMinConnThread();
     void startLoop();
     int size();
