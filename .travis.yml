@@ -15,7 +15,7 @@ script:
   - SOURCE_DIR=`pwd`
   - g++ --version
   - cmake --version
-  - cd SOURCE_DIR
+  - cd $SOURCE_DIR
   - pwd
   - mkdir build
   - cd build
