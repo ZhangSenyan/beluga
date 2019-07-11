@@ -19,7 +19,7 @@ beluga 基于事件驱动，采用非阻塞IO，整体框架由mainReactor,SubRe
 
 # Model
 ## Multiple Reactors
-![Multiple Reactors](https://github.com/SenyanZhang/beluga)
+![Multiple Reactors](https://github.com/SenyanZhang/beluga/doc/MultipleReactors.png)
 # Build
 ```cpp
 git clone --recursive https://github.com/SenyanZhang/beluga.git
