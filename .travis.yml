@@ -10,14 +10,14 @@ install:
 env:
   - BUILD_TYPE=debug
   - BUILD_TYPE=release
+  global:
+    - CI_HOME=`pwd`
 script:
-  - SOURCE_DIR=`pwd`
-    BUILD_DIR=${BUILD_DIR:-../build}
-    BUILD_TYPE=${BUILD_TYPE:-release}
-
-    mkdir -p $BUILD_DIR/$BUILD_TYPE \
-    && cd $BUILD_DIR/$BUILD_TYPE \
-    && cmake \
-    -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-    $SOURCE_DIR \
-    && make $*
+  - g++ --version
+  - cmake --version
+  - cd CI_HOME
+  - pwd
+  - mkdir build
+  - cd build
+  - cmake -DCMAKE_BUILD_TYPE=release ..
+  - make
