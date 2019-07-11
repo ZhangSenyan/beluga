@@ -7,6 +7,8 @@
 #include <memory>
 #include "AcceptThread.h"
 #include "CellTask.h"
+#include <cassert>
+
 Connection::Connection(int fd,struct sockaddr_in clientAddr):
         _fd(fd),_clientAddr(clientAddr),_acceptThread(),
         _expiredTime(20),_channel(new Channel(fd)),_buffer(fd,this){

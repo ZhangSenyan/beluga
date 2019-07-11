@@ -4,7 +4,7 @@
 
 #include "AcceptThread.h"
 #include "Connection.h"
-
+#include <cassert>
 AcceptThread::AcceptThread(int size,int timer_ms):EventLoop(size,timer_ms),_timingWheel(10),_timeCount(0){
     std::cout<<"AcceptThread::AcceptThread"<<std::endl;
 }
@@ -12,7 +12,7 @@ AcceptThread::AcceptThread(int size,int timer_ms):EventLoop(size,timer_ms),_timi
 AcceptThread::~AcceptThread(){
 
 }
-void AcceptThread::addConnction(std::shared_ptr<Connection> conn){
+void AcceptThread::addConnction(std::shared_ptr<Connection> &conn){
     conn->getChannel()->setHolder(conn);
     conn->getChannel()->setEvents(EPOLLIN | EPOLLET);
     assert(connMap.find(conn->getFd())==connMap.end());
@@ -20,7 +20,7 @@ void AcceptThread::addConnction(std::shared_ptr<Connection> conn){
     addChannel(conn->getChannel());
     _timingWheel.addConn(conn->getFd());
 }
-void AcceptThread::removeConnction(std::shared_ptr<Connection> conn){
+void AcceptThread::removeConnction(std::shared_ptr<Connection>& conn){
     /*
      *仅仅是关闭对应的消息接收，具体文件描述符关闭要等到全部消息队列中该连接消息清空
      *时间轮中无需清理，心跳自检程序会自动清除
@@ -72,7 +72,7 @@ void AcceptThread::timerHandle50() {
     }
 }
 
-void AcceptThread::setTaskQueue(std::shared_ptr<TaskQueue> taskQueue){
+void AcceptThread::setTaskQueue(const std::shared_ptr<TaskQueue>& taskQueue){
     _taskQueue=taskQueue;
 }
 std::shared_ptr<TaskQueue> AcceptThread::getTaskQueue(){
@@ -82,6 +82,6 @@ std::shared_ptr<TaskQueue> AcceptThread::getTaskQueue(){
 int AcceptThread::getConnSize(){
     return connMap.size();
 }
-int AcceptThread::updateConn(Connection::ConnPtr conn){
+int AcceptThread::updateConn(Connection::ConnPtr &conn){
     _timingWheel.updateConn(conn->getFd());
 }

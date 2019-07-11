@@ -15,7 +15,6 @@ add_library(
         Util.cpp
         TimingWheel.cpp
         TimingWheel.h
-        Basket.cpp
         Basket.h
         MemoryPool.cpp
         MemoryPool.h
@@ -24,4 +23,3 @@ add_library(
         Alloctor.h
         Alloctor.cpp
 )
-add_subdirectory(test)

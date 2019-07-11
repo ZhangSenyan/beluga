@@ -121,3 +121,21 @@ int timerfd_init(unsigned long ms)
     }
     return tmfd;
 }
+
+/*
+ * 获取当前执行目录
+ */
+std::string getCWD(){
+    std::string cwd;
+    char *buffer;
+    if((buffer = getcwd(NULL, 0)) == NULL)
+    {
+        perror("getcwd error");
+    }
+    else
+    {
+        cwd=std::move(buffer);
+    }
+    return cwd;
+}
+
