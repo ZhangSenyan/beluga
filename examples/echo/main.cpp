@@ -8,7 +8,7 @@
 #include<netinet/ip.h>
 #include<cstring>
 #include<arpa/inet.h>
-#include "Server.h"
+#include "../../beluga/Server.h"
 #include "LogStream.h"
 
 

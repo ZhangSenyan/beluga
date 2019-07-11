@@ -7,25 +7,25 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
-set(LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/lib")
+set(LIBRARY_OUTPUT_PATH "beluga/lib")
 find_package(Threads REQUIRED)
 
-add_subdirectory(base)
-add_subdirectory(net)
-add_subdirectory(task)
-add_subdirectory(thread)
+add_subdirectory(beluga/base)
+add_subdirectory(beluga/net)
+add_subdirectory(beluga/task)
+add_subdirectory(beluga/thread)
 add_subdirectory(test)
-add_subdirectory(log)
+add_subdirectory(beluga/log)
 
 include_directories(
-        ${PROJECT_SOURCE_DIR}/net
-        ${PROJECT_SOURCE_DIR}/base
-        ${PROJECT_SOURCE_DIR}/task
-        ${PROJECT_SOURCE_DIR}/thread
-        ${PROJECT_SOURCE_DIR}/log
+        beluga/net
+        beluga/base
+        beluga/task
+        beluga/thread
+        beluga/log
 )
 
-add_executable(HCCServer main.cpp Server.cpp Client.cpp)
+add_executable(HCCServer examples/echo/main.cpp beluga/Server.cpp examples/echo/Client.cpp)
 target_link_libraries(HCCServer
         base_lib
         thread_lib
@@ -34,7 +34,7 @@ target_link_libraries(HCCServer
         Threads::Threads
 )
 
-add_executable(client client10K.cpp Server.cpp Client.cpp)
+add_executable(client examples/echo/client10K.cpp beluga/Server.cpp examples/echo/Client.cpp)
 target_link_libraries(client
         base_lib
         thread_lib
@@ -42,7 +42,7 @@ target_link_libraries(client
         net_lib
         Threads::Threads
 )
-add_executable(LogTest LogTest.cpp Server.cpp Client.cpp)
+add_executable(LogTest test/LogTest.cpp beluga/Server.cpp examples/echo/Client.cpp)
 target_link_libraries(LogTest
         base_lib
         thread_lib
