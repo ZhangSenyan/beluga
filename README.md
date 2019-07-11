@@ -1,5 +1,8 @@
 # beluga (a simple C++ network library) 
 [![build status](https://travis-ci.org/SenyanZhang/beluga.svg?branch=master)](https://travis-ci.org/SenyanZhang/beluga)
+[![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Linux-green.svg?style=flat)](https://github.com/SenyanZhang/beluga)
+
 # Introduction
 beluga是一款小型的C++网络库，支持高并发，多线程，用于实现高性能网络服务。
 beluga 基于事件驱动，采用非阻塞IO，整体框架由mainReactor,SubReactor,Thread Pool三部分组成。
@@ -21,6 +24,7 @@ beluga 基于事件驱动，采用非阻塞IO，整体框架由mainReactor,SubRe
 ## Multiple Reactors
 使用multiple Reactors (MainReactor+SubReactor+Worker Threads Pool)
 ![Multiple Reactors](https://github.com/SenyanZhang/beluga/raw/master/doc/MultipleReactors.png)
+
 # Build
 ```cpp
 git clone --recursive https://github.com/SenyanZhang/beluga.git
