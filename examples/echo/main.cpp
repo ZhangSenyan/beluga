@@ -5,7 +5,10 @@
 #include "beluga/TCPServer.h"
 #include "beluga/log/LogStream.h"
 #include "beluga/task/CellTask.h"
+
 using namespace std::placeholders;
+
+
 class EchoServer{
 public:
     typedef std::shared_ptr<CellTask> CellTaskPtr;
@@ -15,23 +18,25 @@ public:
     }
     void onMessage(CellTaskPtr cellTask){
 
+        //消息处理函数
         LOG_INFO<<cellTask->getConnAddress()<<" echo:"<<cellTask->getTaskString()<<LOG_ENDL;
 
         cellTask->respond(cellTask->getTaskString());
     }
     void onConnection(TCPServer::ConnPtr connPtr){
-        std::cout<<"A new Connection"<<std::endl;
+
+        //接收一个新连接
         LOG_INFO<<"Accept a new Connection: IP="<<connPtr->getIP()<<" PORT="<<connPtr->getPort()<<LOG_ENDL;
     }
     void startLoop(){
+
+        //启动服务器监听客户端连接
         _server.startListen();
     }
+
 private:
     TCPServer _server;
 };
-std::string onMessage(std::string msg){
-    return msg;
-}
 
 using namespace std;
 int main() {

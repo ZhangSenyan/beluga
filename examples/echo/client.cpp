@@ -8,8 +8,7 @@
 #include "beluga/base/Util.h"
 #include "beluga/Client.h"
 
-using namespace std;
-#define OPEN_MAX 2000
+#define OPEN_MAX 200
 
 int main(){
     struct pollfd fds[OPEN_MAX];
@@ -33,7 +32,6 @@ int main(){
 
         if(fds[0].revents&(POLLIN)){
             //收到数据
-            //std::cout<<"recv data"<<std::endl;
             for(std::string& msg:client.readStream()){
                 std::cout<<msg<<std::endl;
             }
@@ -43,8 +41,7 @@ int main(){
             // 1ms 定时
             uint64_t exp = 0;
             read(timefd, &exp, sizeof(uint64_t));
-            //std::cout<<"timer task"<<std::endl;
-            client.write("Hello !!!"); //发一个空字符，维持心跳
+            client.write("Hello !!!"); //发送数据
         }
         if(fds[2].revents&(POLLIN)){
             //发送数据
