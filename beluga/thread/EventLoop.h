@@ -11,10 +11,10 @@
 #include <thread>
 #include <set>
 
-#include "CurrentThread.h"
-#include "Epoll.h"
-#include "Timer.h"
-#include "TaskQueue.h"
+#include "beluga/base/CurrentThread.h"
+#include "beluga/net/Epoll.h"
+#include "beluga/base/Timer.h"
+#include "beluga/task/TaskQueue.h"
 
 class EventLoop {
 public:

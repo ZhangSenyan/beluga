@@ -3,12 +3,14 @@
 
 #ifndef HCCSERVER_LOGSTREAM_H
 #define HCCSERVER_LOGSTREAM_H
-#include "noncopyable.h"
+
 #include <cassert>
 #include <cstring>
 #include <string>
-#include "AsynLogging.h"
 
+#include "beluga/base/noncopyable.h"
+#include "beluga/log/AsynLogging.h"
+#include "beluga/base/Timer.h"
 //class AsynLogging;
 //const int kLargeBuffer = 2000 * 1000;
 
@@ -81,6 +83,8 @@ private:
 };
 
 #define LOG LogStream::instance()
-
-
+#define LOG_INFO LogStream::instance()<<Timer::getCurrentTime()<<" INFO "
+#define LOG_WARN LogStream::instance()<<Timer::getCurrentTime()<<" WARN "
+#define LOG_ERR LogStream::instance()<<Timer::getCurrentTime()<<" ERROR "
+#define LOG_ENDL "\n"
 #endif

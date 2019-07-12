@@ -10,7 +10,9 @@
 #include <vector>
 #include <string>
 #include <queue>
-#include "MutexLock.h"
+
+#include "beluga/base/MutexLock.h"
+
 class Connection;
 class Buffer {
 public:

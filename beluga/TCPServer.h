@@ -8,29 +8,31 @@
 #include <functional>
 #include <memory>
 #include <set>
-#include "AcceptThreadPool.h"
-#include "DealThreadPool.h"
+#include "beluga/thread/AcceptThreadPool.h"
+#include "beluga/thread/DealThreadPool.h"
+
 class TaskQueue;
 class CellTask;
-class Server {
+#include "beluga/thread/DealThread.h"
+class TCPServer {
 public:
-    typedef std::function<std::string(std::string)> WorkFunctor;
     typedef std::shared_ptr<CellTask> PtrCellTask;
     typedef std::shared_ptr<char> PtrChar;
-    typedef std::function<int(PtrCellTask,PtrChar)> Dealer;
-    Server(int port);
-    ~Server();
-    int registerDealer(Dealer dealer);
+    typedef std::shared_ptr<Connection> ConnPtr;
+    typedef std::function<void(const ConnPtr conn)> ConnFunctor;
+    TCPServer(int port);
+    ~TCPServer();
     void startListen();
     void quit();
-    void setMessageCallBack(WorkFunctor onMessage);
+    void setMessageCallBack(DealThread::WorkFunctor onMessage);
+    void setConnectionCallBack(ConnFunctor connFunctor);
 private:
     int _listenFd;
     bool _running;
     AcceptThreadPool _acceptThreads;
     DealThreadPool _dealThreads;
     std::shared_ptr<TaskQueue> _taskQueue;
-
+    ConnFunctor _onConnection;
 };
 
 

@@ -3,7 +3,9 @@
 //
 
 #include "AcceptThread.h"
-#include "Connection.h"
+
+
+//#include "net/Connection.h"
 #include <cassert>
 AcceptThread::AcceptThread(int size,int timer_ms):EventLoop(size,timer_ms),_timingWheel(10),_timeCount(0){
     std::cout<<"AcceptThread::AcceptThread"<<std::endl;

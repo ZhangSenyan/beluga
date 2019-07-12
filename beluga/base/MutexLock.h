@@ -2,7 +2,7 @@
 // @Email xxbbb@vip.qq.com
 // 引用muduo源码
 #pragma once
-#include "noncopyable.h"
+#include "beluga/base/noncopyable.h"
 #include <pthread.h>
 #include <cstdio>
 

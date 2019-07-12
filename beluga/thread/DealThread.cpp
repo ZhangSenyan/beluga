@@ -2,11 +2,16 @@
 // Created by zhsy on 19-6-8.
 //
 #include <string>
+#include <iostream>
+#include <memory>
+#include <thread>
+#include "unistd.h"
+
+#include "beluga/task/CellTask.h"
+#include "beluga/task/TaskQueue.h"
+
 #include "DealThread.h"
 
-#include "CellTask.h"
-#include "TaskQueue.h"
-#include "unistd.h"
 DealThread::DealThread():_runing(false),_t(std::mem_fun(&DealThread::HandleLoop),this),_taskQueue(nullptr){
     std::cout<<"DealThread::DealThread"<<std::endl;
 }
@@ -25,11 +30,9 @@ void DealThread::HandleLoop(){
     while(_runing){
         //std::cout<<"Looping ... "<<std::endl;
         if(_taskQueue.get()){
-            CellTaskPtr cellTask=_taskQueue->pop();
-            std::string task=cellTask->getTask();
-            std::string result=_workFunctor(task);
-            //std::cout<<result<<std::endl;
-            cellTask->respond(result);
+
+            _workFunctor(_taskQueue->pop());
+
         }
 
     }

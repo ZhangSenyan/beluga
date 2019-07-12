@@ -12,8 +12,8 @@
 #include <condition_variable>
 #include <mutex>
 
-#include "CellTask.h"
-#include "noncopyable.h"
+#include "beluga/task/CellTask.h"
+#include "beluga/base/noncopyable.h"
 
 class TaskQueue:noncopyable {
 public:

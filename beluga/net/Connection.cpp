@@ -2,12 +2,14 @@
 // Created by zhsy on 19-6-29.
 //
 
-#include "Connection.h"
+
 #include <functional>
 #include <memory>
-#include "AcceptThread.h"
-#include "CellTask.h"
 #include <cassert>
+
+#include "Connection.h"
+#include "beluga/thread/AcceptThread.h"
+#include "beluga/task/CellTask.h"
 
 Connection::Connection(int fd,struct sockaddr_in clientAddr):
         _fd(fd),_clientAddr(clientAddr),_acceptThread(),

@@ -3,8 +3,9 @@
 //
 
 #include "Channel.h"
-#include "Connection.h"
-#include "AcceptThread.h"
+#include "beluga/net/Connection.h"
+#include "beluga/thread/AcceptThread.h"
+
 Channel::Channel(int fd):_fd(fd),_events(0),_revents(0){
 
 }

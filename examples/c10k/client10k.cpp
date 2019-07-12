@@ -5,8 +5,8 @@
 #include <unistd.h>
 #include <poll.h>
 
-#include "Util.h"
-#include "Client.h"
+#include "beluga/base/Util.h"
+#include "beluga/Client.h"
 
 using namespace std;
 #define OPEN_MAX 2000

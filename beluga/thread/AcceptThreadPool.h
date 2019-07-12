@@ -9,8 +9,8 @@
 #include <vector>
 #include <memory>
 
-#include "AcceptThread.h"
-#include "Connection.h"
+#include "beluga/thread/AcceptThread.h"
+#include "beluga/net/Connection.h"
 class AcceptThreadPool {
 public:
     AcceptThreadPool(int size,int maxConnSize);

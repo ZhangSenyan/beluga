@@ -7,7 +7,7 @@
 
 #include <unordered_set>
 #include <memory>
-#include "Connection.h"
+#include "beluga/net/Connection.h"
 
 struct Basket {
     //typedef std::shared_ptr<Basket> BasketPtr;

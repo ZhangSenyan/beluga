@@ -7,7 +7,7 @@ include_directories(
 )
 
 
-add_executable(testMem testMem.cpp ../beluga/Server.cpp ../examples/echo/Client.cpp)
+add_executable(testMem testMem.cpp ../beluga/TCPServer.cpp ../beluga/Client.cpp)
 target_link_libraries(testMem
         base_lib
         thread_lib

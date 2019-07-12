@@ -12,8 +12,8 @@
 #include <cstdlib>
 #include <cstdint>
 
-#include "Util.h"
-#include "Connection.h"
+#include "beluga/base/Util.h"
+#include "beluga/net/Connection.h"
 
 #define BUFFER_SIZE 4096
 Buffer::Buffer(int fd,Connection *holder):_fd(fd),recvIndexEnd(0),sendIndexEnd(0),_holder(holder){

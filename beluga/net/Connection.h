@@ -15,7 +15,7 @@
 class Channel;
 class CellTask;
 
-#include "Buffer.h"
+#include "beluga/base/Buffer.h"
 
 class AcceptThread;
 

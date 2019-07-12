@@ -14,11 +14,14 @@ class CellTask {
 public:
     CellTask(std::string msg,std::shared_ptr<Connection> conn);
     ~CellTask();
-    std::string getTask();
+    const std::string& getTaskString() const;
     void respond(std::string result);
+    std::shared_ptr<Connection> getConn();
+    std::string&& getConnAddress()const;
 private:
     std::string _msg;
     std::shared_ptr<Connection> _conn;
+    time_t _time;
 };
 
 

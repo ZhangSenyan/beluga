@@ -12,7 +12,7 @@
 #include <memory>
 #include <vector>
 #include <iostream>
-#include "Channel.h"
+#include "beluga/net/Channel.h"
 
 
 class Epoll {

@@ -4,7 +4,7 @@
 
 #include "MemoryBlock.h"
 #include <cstddef>
-#include<malloc.h>
+#include <malloc.h>
 #include <cassert>
 MemoryBlock::MemoryBlock(int unitSize):_unitSize(unitSize),_restNum(0),_capacity(0),_nextBlock(nullptr){
 

@@ -2,30 +2,28 @@
 // Created by zhsy on 19-6-8.
 //
 
-#include "Server.h"
-#include "base/Util.h"
+#include "TCPServer.h"
+#include "beluga/base/Util.h"
 #include <cstring>
 #include <arpa/inet.h>
 #include <iostream>
-#include "Connection.h"
-#include "task/TaskQueue.h"
+#include "beluga/net/Connection.h"
+#include "beluga/task/TaskQueue.h"
 
 
-Server::Server(int port):_listenFd(socketCreate(port)),_running(false),_acceptThreads(4,150000),
+TCPServer::TCPServer(int port):_listenFd(socketCreate(port)),_running(false),_acceptThreads(4,150000),
         _dealThreads(8),_taskQueue(new TaskQueue()){
     std::cout<<"Create Socket: Port="<<port<<std::endl;
     _acceptThreads.setTaskQueue(_taskQueue);
     _dealThreads.setTaskQueue(_taskQueue);
-    std::cout<<"Create Server"<<std::endl;
+    std::cout<<"Create TCPServer"<<std::endl;
 
 }
-Server::~Server(){
+TCPServer::~TCPServer(){
 
 }
-int Server::registerDealer(Dealer dealer){
 
-}
-void Server::startListen(){
+void TCPServer::startListen(){
     std::cout<<"Start listen"<<std::endl;
     _acceptThreads.startLoop();
     _dealThreads.startLoop();
@@ -43,14 +41,18 @@ void Server::startListen(){
         if (setnonblocking(connFd) < 0) {
             perror("setnonblock error");
         }
-        _acceptThreads.putConnection(std::shared_ptr<Connection>
-                (new Connection(connFd,client_addr)));
+        std::shared_ptr<Connection> newConn=std::make_shared<Connection>(connFd,client_addr);
+
+        _acceptThreads.putConnection(std::move(newConn));
 
     }
 }
-void Server::quit(){
+void TCPServer::quit(){
     _running=false;
 }
-void Server::setMessageCallBack(WorkFunctor onMessage){
+void TCPServer::setMessageCallBack(DealThread::WorkFunctor onMessage){
     _dealThreads.setMessageCallBack(onMessage);
+}
+void TCPServer::setConnectionCallBack(ConnFunctor connFunctor){
+    _onConnection=connFunctor;
 }

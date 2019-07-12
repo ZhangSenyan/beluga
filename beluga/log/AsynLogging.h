@@ -6,15 +6,14 @@
 #define HCCSERVER_ASYNLOGGING_H
 
 #include <queue>
-#include "LogFile.h"
-#include "LogBuffer.h"
-#include "ObjectPool.h"
 #include <mutex>
 #include <condition_variable>
 #include <thread>
 #include <algorithm>
 
-
+#include "beluga/log/LogFile.h"
+#include "beluga/log/LogBuffer.h"
+#include "beluga/log/ObjectPool.h"
 
 class AsynLogging {
 public:

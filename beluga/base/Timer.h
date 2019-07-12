@@ -23,6 +23,7 @@ public:
     void handleError();
     std::shared_ptr<Channel> getChannel();
     void setTimeHandler(std::function<void(void)> timeHandler);
+    static std::string getCurrentTime();
 private:
     int timefd;
     int interTime;

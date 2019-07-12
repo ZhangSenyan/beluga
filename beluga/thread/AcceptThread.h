@@ -7,19 +7,17 @@
 
 
 #include <iostream>
-//#include <pthread.h>
-//#include <unistd.h>
-//#include <thread>
-//#include <set>
+#include <map>
 
-#include "EventLoop.h"
-#include "TaskQueue.h"
-#include "TimingWheel.h"
+#include "beluga/net/Connection.h"
+#include "beluga/task/TaskQueue.h"
+#include "beluga/base/TimingWheel.h"
+#include "beluga/thread/EventLoop.h"
+
 class AcceptThread :public EventLoop{
 public:
     AcceptThread(int size=10000,int timer_ms=50);
     ~AcceptThread();
-
     void addConnction(std::shared_ptr<Connection> conn);
     void removeConnction(std::shared_ptr<Connection> conn);
     void removeConnction(int fd);

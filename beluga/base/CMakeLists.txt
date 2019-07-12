@@ -1,12 +1,7 @@
 cmake_minimum_required(VERSION 3.7)
 
 message("message from ./base")
-include_directories(
-        ../net
-        .
-        ../task
-        ../thread
-)
+
 add_library(
         base_lib SHARED
         #----------------#

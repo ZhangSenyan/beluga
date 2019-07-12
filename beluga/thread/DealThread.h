@@ -5,19 +5,19 @@
 #ifndef HCCSERVER_DEALTHREAD_H
 #define HCCSERVER_DEALTHREAD_H
 
+#include <memory>
+#include <thread>
 
 class TaskQueue;
 class CellTask;
 
-//.cpp
-#include <iostream>
-#include <memory>
-#include <thread>
+
+
 class DealThread {
 public:
     typedef std::shared_ptr<TaskQueue> TaskQueuePtr;
     typedef std::shared_ptr<CellTask> CellTaskPtr;
-    typedef std::function<std::string(std::string)> WorkFunctor;
+    typedef std::function<void(CellTaskPtr)> WorkFunctor;
 
     DealThread();
     ~DealThread();

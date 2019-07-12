@@ -7,12 +7,12 @@
 
 #include <string>
 #include <fstream>
-#include "Util.h"
 #include <unistd.h>
 #include <iostream>
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include "beluga/base/Util.h"
 class LogFile {
 public:
     explicit LogFile(std::string logPath=getCWD()+"/test.log"):_logPath(logPath),_fp(fopen(logPath.c_str(), "ae")){
