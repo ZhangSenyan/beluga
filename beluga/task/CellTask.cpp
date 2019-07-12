@@ -12,7 +12,7 @@ CellTask::CellTask(std::string msg,std::shared_ptr<Connection> conn)
 CellTask::~CellTask() {
 
 }
-const std::string& CellTask::getTaskString() const{
+const std::string CellTask::getTaskString() const{
     return _msg;
 }
 
@@ -22,6 +22,6 @@ void CellTask::respond(std::string result){
 std::shared_ptr<Connection> CellTask::getConn(){
     return _conn;
 }
-std::string&& CellTask::getConnAddress() const{
+std::string CellTask::getConnAddress() const{
     return _conn->getIP()+":"+std::to_string(_conn->getPort());
 }

@@ -17,8 +17,8 @@ int main(){
         fds[j].fd =  -1;
     }
 
-    std::shared_ptr<Client> pClient(new Client());
-    fds[0].fd=pClient->getFD();
+    Client client("10.20.4.5",9000);
+    fds[0].fd=client.getFD();
     fds[0].events = POLLIN;
 
     int timefd=timerfd_init(1000);
@@ -31,28 +31,27 @@ int main(){
     for(;;){
         int nready = poll(fds, 3, 10000);
 
-        /*if(fds[0].revents&(POLLIN)){
+        if(fds[0].revents&(POLLIN)){
             //收到数据
-            std::cout<<"recv data"<<std::endl;
-            pClient->readStream();
-            //for(std::string& msg:pClient->readStream()){
-            //    std::cout<<msg<<std::endl;
-            //}
-        }*/
+            //std::cout<<"recv data"<<std::endl;
+            for(std::string& msg:client.readStream()){
+                std::cout<<msg<<std::endl;
+            }
+        }
 
         if(fds[1].revents&(POLLIN)){
             // 1ms 定时
             uint64_t exp = 0;
             read(timefd, &exp, sizeof(uint64_t));
-            std::cout<<"timer task"<<std::endl;
-            pClient->write("Hello haha~");
+            //std::cout<<"timer task"<<std::endl;
+            client.write("Hello !!!"); //发一个空字符，维持心跳
         }
         if(fds[2].revents&(POLLIN)){
             //发送数据
+            char sendBuffer[100];
             std::cout<<"send data"<<std::endl;
-            std::string str;
-            cin>>str;
-            pClient->write(str);
+            int len=read(0,sendBuffer,100);
+            client.write(std::string(sendBuffer,sendBuffer+len));
         }
 
     }

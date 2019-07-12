@@ -42,7 +42,7 @@ void TCPServer::startListen(){
             perror("setnonblock error");
         }
         std::shared_ptr<Connection> newConn=std::make_shared<Connection>(connFd,client_addr);
-
+        _onConnection(newConn);
         _acceptThreads.putConnection(std::move(newConn));
 
     }

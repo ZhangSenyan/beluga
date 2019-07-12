@@ -13,6 +13,9 @@
 #include <sys/types.h>
 
 #include "beluga/base/Util.h"
+
+
+
 class LogFile {
 public:
     explicit LogFile(std::string logPath=getCWD()+"/test.log"):_logPath(logPath),_fp(fopen(logPath.c_str(), "ae")){
@@ -27,11 +30,16 @@ public:
         _logPath=logPath;
         std::cout<<logPath<<std::endl;
         _fp=fopen(logPath.c_str(), "ae");
+        if(_fp=fopen(logPath.c_str(), "ae")){
+            std::cout<<"Reset Path:"<<logPath<<std::endl;
+        }
+        else{
+            perror("Reset Path");
+            exit(-1);
+        }
     }
     size_t write(const char* logline, size_t len)
     {
-
-
         return fwrite_unlocked(logline, 1, len, _fp);
     }
     void flush()

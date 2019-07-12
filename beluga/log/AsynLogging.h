@@ -87,6 +87,7 @@ public:
                     _cv.wait_for(lckQ, std::chrono::seconds(3));
                 }
             }
+
             if (_buffQueue.empty()) {
                 curBufferFlush();
             }
@@ -102,7 +103,9 @@ public:
                 _objectPool.dealloc(_writingBuffer);
                 _writingBuffer= nullptr;
             }
+
             _logFile.flush();
+
         }
     }
     void curBufferFlush(){

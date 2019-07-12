@@ -8,3 +8,8 @@ add_library(
         Connection.cpp
         Epoll.cpp
 )
+target_link_libraries(
+        net_lib
+        thread_lib
+        task_lib
+)
