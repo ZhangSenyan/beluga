@@ -7,29 +7,27 @@
 
 #include <memory>
 #include <thread>
-
+#include "beluga/beluga.h"
 class TaskQueue;
 class CellTask;
 
 
 
+
 class DealThread {
 public:
-    typedef std::shared_ptr<TaskQueue> TaskQueuePtr;
-    typedef std::shared_ptr<CellTask> CellTaskPtr;
-    typedef std::function<void(CellTaskPtr)> WorkFunctor;
 
     DealThread();
     ~DealThread();
     void startLoop();
     void HandleLoop();
-    void setTaskQueue(TaskQueuePtr taskQueue);
-    void setMessageCallBack(WorkFunctor workFunctor);
+    void setTaskQueue(beluga::TaskQueuePtr taskQueue);
+    void setMessageCallBack(beluga::WorkFunctor workFunctor);
 private:
     bool _runing;
     std::thread _t;
     std::shared_ptr<TaskQueue> _taskQueue;
-    WorkFunctor _workFunctor;
+    beluga::WorkFunctor _workFunctor;
 };
 
 #endif //HCCSERVER_DEALTHREAD_H

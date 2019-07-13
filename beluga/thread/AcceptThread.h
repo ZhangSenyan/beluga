@@ -9,6 +9,7 @@
 #include <iostream>
 #include <map>
 
+#include "beluga/beluga.h"
 #include "beluga/net/Connection.h"
 #include "beluga/task/TaskQueue.h"
 #include "beluga/base/TimingWheel.h"
@@ -16,6 +17,7 @@
 
 class AcceptThread :public EventLoop{
 public:
+
     AcceptThread(int size=10000,int timer_ms=50);
     ~AcceptThread();
     void addConnction(std::shared_ptr<Connection> conn);
@@ -29,12 +31,14 @@ public:
     std::map<int ,std::shared_ptr<Connection>>& getConnMap();
     int getConnSize();
     int updateConn(Connection::ConnPtr conn);
+    void setDropConnectionCallBack(beluga::ConnFunctor dropFunctor);
 private:
 
     std::map<int,std::shared_ptr<Connection>> connMap;
     std::shared_ptr<TaskQueue> _taskQueue;
     TimingWheel _timingWheel;
     int _timeCount;
+    beluga::ConnFunctor _onDropConntion;
     
 };
 

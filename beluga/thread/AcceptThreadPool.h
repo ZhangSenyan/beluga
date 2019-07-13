@@ -21,6 +21,7 @@ public:
     int size();
     int maxConnSize();
     int connSize();
+    void setDropConnectionCallBack(beluga::ConnFunctor dropFunctor);
 private:
     std::vector<std::shared_ptr<AcceptThread>> _threads;
     size_t _connNum;

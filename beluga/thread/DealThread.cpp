@@ -11,7 +11,7 @@
 #include "beluga/task/TaskQueue.h"
 
 #include "DealThread.h"
-
+using namespace beluga;
 DealThread::DealThread():_runing(false),_t(std::mem_fun(&DealThread::HandleLoop),this),_taskQueue(nullptr){
     std::cout<<"DealThread::DealThread"<<std::endl;
 }
@@ -30,7 +30,6 @@ void DealThread::HandleLoop(){
     while(_runing){
         //std::cout<<"Looping ... "<<std::endl;
         if(_taskQueue.get()){
-
             _workFunctor(_taskQueue->pop());
 
         }

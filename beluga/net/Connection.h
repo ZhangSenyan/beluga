@@ -29,8 +29,8 @@ public:
     void handleRead();
     void handleWrite();
     void handleError();
-    std::string getIP();
-    int getPort();
+    std::string getIP() const;
+    int getPort()const;
     std::shared_ptr<Channel> getChannel();
     int flushBuffer();
     std::shared_ptr<AcceptThread> getAcceptThread();

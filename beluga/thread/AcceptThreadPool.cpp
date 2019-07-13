@@ -50,3 +50,8 @@ int AcceptThreadPool::maxConnSize(){
 int AcceptThreadPool::connSize(){
     return _connNum;
 }
+void AcceptThreadPool::setDropConnectionCallBack(beluga::ConnFunctor dropFunctor){
+    for(auto &thread:_threads){
+        thread->setDropConnectionCallBack(dropFunctor);
+    }
+}

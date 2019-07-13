@@ -46,7 +46,6 @@ int main(){
         if(fds[2].revents&(POLLIN)){
             //发送数据
             char sendBuffer[100];
-            std::cout<<"send data"<<std::endl;
             int len=read(0,sendBuffer,100);
             client.write(std::string(sendBuffer,sendBuffer+len));
             if(std::string(sendBuffer,len)=="exit"){

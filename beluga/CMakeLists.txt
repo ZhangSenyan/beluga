@@ -8,7 +8,7 @@ add_subdirectory(task)
 
 
 
-add_library(beluga_lib SHARED TCPServer.cpp Client.cpp)
+add_library(beluga_lib SHARED TCPServer.cpp Client.cpp beluga.h)
 target_link_libraries(beluga_lib
         base_lib
         thread_lib

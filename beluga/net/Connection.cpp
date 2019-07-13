@@ -34,10 +34,10 @@ int Connection::getFd(){
 void Connection::setFd(int fd){
     _fd=fd;
 }
-std::string Connection::getIP(){
+std::string Connection::getIP() const{
     return inet_ntoa(_clientAddr.sin_addr);
 }
-int Connection::getPort(){
+int Connection::getPort() const{
     return ntohs(_clientAddr.sin_port);
 }
 void Connection::handleRead(){
@@ -53,10 +53,13 @@ void Connection::handleRead(){
     // 基于当前系统的当前日期/时间
     //time_t now = time(0);
     for(auto msg:msgs){
-    //    std::cout<<ctime(&now)<<"  "<<inet_ntoa(_clientAddr.sin_addr)<<"-"<<ntohs(_clientAddr.sin_port)
-     //            <<":"<<msg<<std::endl;
-        std::shared_ptr<CellTask> cellTaskptr(new CellTask(msg,shared_from_this()));
-        taskQueen->push(cellTaskptr);
+        //    std::cout<<ctime(&now)<<"  "<<inet_ntoa(_clientAddr.sin_addr)<<"-"<<ntohs(_clientAddr.sin_port)
+        //            <<":"<<msg<<std::endl;
+        //过滤心跳
+        if(msg!="^^^") {
+            std::shared_ptr<CellTask> cellTaskptr(new CellTask(msg, shared_from_this()));
+            taskQueen->push(cellTaskptr);
+        }
     }
     //std::string msg=_buffer.readSimple();
     //std::cout<<msg<<std::endl;

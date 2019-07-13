@@ -10,7 +10,7 @@
 #include "beluga/net/Connection.h"
 #include "beluga/task/TaskQueue.h"
 
-
+using namespace beluga;
 TCPServer::TCPServer(int port):_listenFd(socketCreate(port)),_running(false),_acceptThreads(4,150000),
         _dealThreads(8),_taskQueue(new TaskQueue()){
     std::cout<<"Create Socket: Port="<<port<<std::endl;
@@ -50,9 +50,13 @@ void TCPServer::startListen(){
 void TCPServer::quit(){
     _running=false;
 }
-void TCPServer::setMessageCallBack(DealThread::WorkFunctor onMessage){
+void TCPServer::setMessageCallBack(WorkFunctor onMessage){
     _dealThreads.setMessageCallBack(onMessage);
 }
 void TCPServer::setConnectionCallBack(ConnFunctor connFunctor){
     _onConnection=connFunctor;
+}
+
+void TCPServer::setDropConnectionCallBack(beluga::ConnFunctor connFunctor){
+    _acceptThreads.setDropConnectionCallBack(connFunctor);
 }

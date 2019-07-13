@@ -27,7 +27,7 @@ void AcceptThread::removeConnction(std::shared_ptr<Connection> conn){
      *仅仅是关闭对应的消息接收，具体文件描述符关闭要等到全部消息队列中该连接消息清空
      *时间轮中无需清理，心跳自检程序会自动清除
      */
-
+    _onDropConntion(conn);
     removeChannel(conn->getChannel());
     connMap.erase(conn->getFd());
 
@@ -86,4 +86,8 @@ int AcceptThread::getConnSize(){
 }
 int AcceptThread::updateConn(Connection::ConnPtr conn){
     _timingWheel.updateConn(conn->getFd());
+}
+
+void AcceptThread::setDropConnectionCallBack(beluga::ConnFunctor dropFunctor){
+    _onDropConntion=dropFunctor;
 }

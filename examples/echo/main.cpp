@@ -6,15 +6,16 @@
 #include "beluga/log/LogStream.h"
 #include "beluga/task/CellTask.h"
 
-using namespace std::placeholders;
-
+using std::placeholders::_1;
+using namespace beluga;
 
 class EchoServer{
 public:
-    typedef std::shared_ptr<CellTask> CellTaskPtr;
+
     explicit EchoServer(int port):_server(port){
         _server.setMessageCallBack(std::bind(&EchoServer::onMessage,this,_1));
         _server.setConnectionCallBack(std::bind(&EchoServer::onConnection,this,_1));
+
     }
     void onMessage(CellTaskPtr cellTask){
 
@@ -23,7 +24,7 @@ public:
 
         cellTask->respond(cellTask->getTaskString());
     }
-    void onConnection(TCPServer::ConnPtr connPtr){
+    void onConnection(const ConnPtr &connPtr){
 
         //接收一个新连接
         LOG_INFO<<"Accept a new Connection: IP="<<connPtr->getIP()<<" PORT="<<connPtr->getPort()<<LOG_ENDL;

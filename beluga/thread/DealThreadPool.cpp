@@ -3,7 +3,7 @@
 //
 
 #include "DealThreadPool.h"
-
+using namespace beluga;
 /*
  * 初始化创建线程池，大小为size，放到vector中
  */
@@ -33,7 +33,7 @@ void DealThreadPool::startLoop(){
         thread->startLoop();
     }
 }
-void DealThreadPool::setMessageCallBack(DealThread::WorkFunctor workFunctor){
+void DealThreadPool::setMessageCallBack(WorkFunctor workFunctor){
     for(auto thread:_threads){
         thread->setMessageCallBack(workFunctor);
     }
