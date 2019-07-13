@@ -20,6 +20,7 @@ beluga 基于事件驱动，采用非阻塞IO，整体框架由mainReactor,SubRe
 * 内存池采用动态倍增扩容机制以及lazy加载模式，最大限度节省内存开销，提高内存申请速率
 * 采用多线程和线程池，充分利用多核CPU，减少线程频繁创建带来的开销
 
+
 # Model
 ## Multiple Reactors
 使用multiple Reactors (MainReactor+SubReactor+Worker Threads Pool)
