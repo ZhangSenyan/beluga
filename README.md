@@ -5,7 +5,7 @@
 
 # Introduction
 beluga是一款小型的C++网络库，支持高并发，多线程，用于实现高性能网络服务。
-beluga 基于事件驱动，采用非阻塞IO，整体框架由mainReactor,SubReactor,Thread Pool三部分组成。
+beluga 基于事件驱动，采用非阻塞IO，整体框架由mainReactor,SubReactor,Compute Threads三部分组成。
 # Technical points
 
 * 基于Reactor模式，包含监听线程，IO线程和计算线程，监听线程负责监听和创建连接，IO线程负责读取写入网络数据，
@@ -27,6 +27,7 @@ beluga 基于事件驱动，采用非阻塞IO，整体框架由mainReactor,SubRe
 ![Multiple Reactors](https://github.com/ZhangSenyan/beluga/raw/master/docs/MultipleReactors.png)
 
 # Build
+
 ```cpp
 git clone --recursive https://github.com/SenyanZhang/beluga.git
 cd beluga
