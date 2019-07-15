@@ -17,4 +17,5 @@ target_link_libraries(beluga_lib
         log_lib
         rpc_lib
         Threads::Threads
+
 )
