@@ -7,6 +7,7 @@ os:
   - linux
 install:
   - sudo apt-get install cmake
+  - sudo apt-get install libprotobuf-dev protobuf-compiler libprotoc-dev
 env:
   - BUILD_TYPE=debug
   - BUILD_TYPE=release
