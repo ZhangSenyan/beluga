@@ -19,6 +19,7 @@ env:
 
 script:
   - SOURCE_DIR=`pwd`
+  - cat /usr/local/include/google/protobuf/port_def.inc
   - g++ --version
   - cmake --version
   - cd $SOURCE_DIR
