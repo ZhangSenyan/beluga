@@ -14,5 +14,5 @@ extern ssize_t readn(int fd,char *ptr,size_t n);
 extern ssize_t writen(int fd,char *ptr,size_t n);
 extern int timerfd_init(unsigned long ms);
 extern std::string getCWD();
-
+extern int setblocking(int sockfd);
 #endif //HCCSERVER_UTIL_H

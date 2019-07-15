@@ -41,6 +41,9 @@ TCPClient::TCPClient(char * ip, int port):_fd(connectServer(ip,port)),_buffer(_f
 TCPClient::~TCPClient(){
 
 }
+void TCPClient::setBlocking(){
+    setblocking(_fd);
+}
 int TCPClient::getFD(){
     return _fd;
 }

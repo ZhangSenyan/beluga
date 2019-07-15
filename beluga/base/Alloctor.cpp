@@ -3,6 +3,7 @@
 #include"MemoryPool.h"
 #include"Alloctor.h"
 
+#ifdef USE_MEMORY_POOL
 void* operator new(size_t size)
 {
     //std::cout<<"operator new size="<<size<<std::endl;
@@ -32,3 +33,4 @@ void mem_alloc(void* p)
 {
 	free(p);
 }
+#endif

@@ -56,6 +56,13 @@ int setnonblocking(int sockfd)
     }
     return 0;
 }
+int setblocking(int sockfd)
+{
+    if (fcntl(sockfd, F_SETFL, fcntl(sockfd, F_GETFD, 0)&(~O_NONBLOCK)) == -1) {
+        return -1;
+    }
+    return 0;
+}
 
 ssize_t readn(int fd,char *ptr,size_t n){
 

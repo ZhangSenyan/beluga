@@ -14,6 +14,7 @@ public:
     ~TCPClient();
     int getFD();
     void write(std::string str);
+    void setBlocking();
     std::vector<std::string> readStream();
 private:
     int _fd;
