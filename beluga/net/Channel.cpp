@@ -5,7 +5,7 @@
 #include "Channel.h"
 #include "beluga/net/Connection.h"
 #include "beluga/thread/AcceptThread.h"
-
+using namespace beluga;
 Channel::Channel(int fd):_fd(fd),_events(0),_revents(0){
 
 }
@@ -49,16 +49,19 @@ void Channel::handleEvents(){
     }
     if (_revents & (EPOLLIN | EPOLLPRI | EPOLLRDHUP))
     {
-        _readhandler();
+        if(_readhandler)_readhandler();
     }
     if (_revents & EPOLLOUT)
     {
-        _writehandler();
+        if(_writehandler)_writehandler();
     }
 
 }
 int Channel::getFd(){
     return _fd;
+}
+void Channel::setFD(int fd){
+    _fd=fd;
 }
 __uint32_t Channel::getEvents(){
     return  _events;

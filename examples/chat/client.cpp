@@ -6,7 +6,7 @@
 #include <poll.h>
 
 #include "beluga/base/Util.h"
-#include "beluga/Client.h"
+#include "beluga/TCPClient.h"
 
 #define OPEN_MAX 200
 
@@ -16,7 +16,7 @@ int main(){
         fds[j].fd =  -1;
     }
 
-    Client client("10.20.4.5",9000);
+    TCPClient client("10.20.4.5",9000);
     fds[0].fd=client.getFD();
     fds[0].events = POLLIN;
 

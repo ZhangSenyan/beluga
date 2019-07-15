@@ -1,59 +1,70 @@
+#include "beluga/TCPClient.h"
+#include "beluga/net/Channel.h"
+#include "beluga/thread/EventLoop.h"
 
-#include <iostream>
-#include <stdio.h>
-#include <map>
-#include <unistd.h>
-#include <poll.h>
+//Ping-Pong Client
+class PPClient{
+public:
+    PPClient(char * ip, int port,EventLoop* eventLoop,int blockSize):
+            _tcpClient(ip,port),
+            _channel(new Channel(0)),
+            _eventLoop(eventLoop){
 
-#include "beluga/base/Util.h"
-#include "beluga/Client.h"
+        _channel->setFD(_tcpClient.getFD());
 
-using namespace std;
-#define OPEN_MAX 2000
+        _channel->setReadHandler(std::bind(&PPClient::handle_read,this));
+        _channel->setWriteHandler(std::bind(&PPClient::handle_write,this));
+        _channel->setErrorHandler(std::bind(&PPClient::handle_error,this));
 
+        _channel->setEvents(EPOLLOUT |EPOLLIN| EPOLLET| EPOLLERR);
+
+
+        for (int i = 0; i < blockSize; ++i)
+        {
+            _msg.push_back(static_cast<char>(i % 10)+'0');
+        }
+        eventLoop->addChannel(_channel);
+
+    }
+    void handle_read(){
+        //std::cout<<"handle_read()"<<std::endl;
+        _tcpClient.readStream();
+        _channel->addEvents(EPOLLOUT);
+        _eventLoop->getEpoll()->updateChannel(_channel);
+    }
+    void handle_write(){
+        //std::cout<<"handle_write()"<<std::endl;
+        _tcpClient.write(_msg);
+        _channel->removeEvents(EPOLLOUT);
+        _eventLoop->getEpoll()->updateChannel(_channel);
+    }
+    void handle_error(){
+        std::cout<<"handle_error()"<<std::endl;
+    }
+
+private:
+    std::shared_ptr<Channel> _channel;
+    std::string _msg;
+    EventLoop* _eventLoop;
+    TCPClient _tcpClient;
+};
+typedef std::shared_ptr<PPClient> PPClientPtr;
+typedef std::set<PPClientPtr> PPClientSet;
 int main(){
-    struct pollfd fds[OPEN_MAX];
-    for(int j=0;j<OPEN_MAX;j++){
-        fds[j].fd =  -1;
+
+    int clientNum=10000;
+
+    EventLoop eventLoop;
+    eventLoop.startLoop();
+    PPClientSet ppClientSet;
+    for(int i=0;i<clientNum;i++){
+        PPClientPtr ppClientPtr(new PPClient("10.20.4.5",10000,&eventLoop,128));
+        ppClientSet.insert(ppClientPtr);
+        usleep(20);
+    }
+    while(eventLoop.isRuning()){
+        sleep(1);
     }
 
-    std::map<int,std::shared_ptr<Client>> clientSet;
-    int i=0;
-    for(;i<OPEN_MAX-10;i++){
-        std::shared_ptr<Client> pClient(new Client());
 
-        fds[i].fd=pClient->getFD();
-        fds[i].events = POLLIN;
-        if(i<0.9*OPEN_MAX){
-            clientSet[pClient->getFD()]=pClient;
-        }
-    }
-    int timefdIndex=i++;
-    int timefd=timerfd_init(1000);
-    fds[timefdIndex].fd=timefd;
-    fds[timefdIndex].events = POLLIN;
-    int count=0;
-    for(;;){
-        int nready = poll(fds, i+1, 10000);
-
-        if(fds[timefdIndex].revents&(POLLIN)){
-            uint64_t exp = 0;
-            read(timefd, &exp, sizeof(uint64_t));
-
-            cout<<"Recv Msg mum="<<count<<endl;
-            count=0;
-            for(auto pair:clientSet){
-                for(int c=0;c<10;c++)
-                    pair.second->write("abcdefghigh");
-            }
-        }
-        for(int i=0;i<OPEN_MAX;i++){
-
-            if(fds[i].fd<=0)
-                continue;
-            if((fds[i].revents & (POLLIN)) && (clientSet.find(fds[i].fd)!=clientSet.end())){
-                count+=clientSet[fds[i].fd]->readAndDeal();
-            }
-        }
-    }
 }

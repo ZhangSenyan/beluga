@@ -20,8 +20,8 @@ int AcceptThreadPool::putConnection(std::shared_ptr<Connection> conn){
     if(_connNum>_maxNum)
         return -1;
     std::shared_ptr<AcceptThread> acceptThread(getMinConnThread());
-    acceptThread->addConnction(conn);
     conn->setAcceptThread(acceptThread);
+    acceptThread->addConnction(conn);
     _connNum++;
     return _connNum;
 }

@@ -18,9 +18,10 @@ void AcceptThread::addConnction(std::shared_ptr<Connection> conn){
     conn->getChannel()->setHolder(conn);
     conn->getChannel()->setEvents(EPOLLIN | EPOLLET);
     assert(connMap.find(conn->getFd())==connMap.end());
+    _timingWheel.addConn(conn->getFd());
     connMap[conn->getFd()]=conn;
     addChannel(conn->getChannel());
-    _timingWheel.addConn(conn->getFd());
+
 }
 void AcceptThread::removeConnction(std::shared_ptr<Connection> conn){
     /*
@@ -69,6 +70,7 @@ void AcceptThread::timerHandle1000() {
 }
 void AcceptThread::timerHandle50() {
     //50ms 计时任务
+    //std::cout<<"AcceptThread::timerHandle50()"<<std::endl;
     for(auto &connPair:connMap){
         connPair.second->flushBuffer();
     }

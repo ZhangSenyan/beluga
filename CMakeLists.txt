@@ -16,7 +16,6 @@ find_package(Threads REQUIRED)
 include_directories(${PROJECT_SOURCE_DIR})
 
 add_subdirectory(beluga)
-
 add_subdirectory(examples)
 
 

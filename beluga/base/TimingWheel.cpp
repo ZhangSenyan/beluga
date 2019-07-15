@@ -17,8 +17,8 @@ TimingWheel::~TimingWheel(){
 std::unordered_set<int> TimingWheel::step(){
 
     std::lock_guard<std::mutex> lock(_mutex);
-    printBaskets();
-    std::cout<<"step"<<std::endl;
+    //printBaskets();
+    //std::cout<<"step"<<std::endl;
     _curBasket=_curBasket->_next;
     std::unordered_set<int> removedConnFDs;
     removedConnFDs.swap(_curBasket->_connFdSet);

@@ -25,6 +25,11 @@ public:
     void setMessageCallBack(beluga::WorkFunctor onMessage);
     void setConnectionCallBack(beluga::ConnFunctor connFunctor);
     void setDropConnectionCallBack(beluga::ConnFunctor connFunctor);
+    void onAccept();
+    void setTimerCallBack(beluga::CallFunc func);
+    bool isRunning(){
+        return _running;
+    }
 private:
     int _listenFd;
     bool _running;
@@ -32,6 +37,8 @@ private:
     DealThreadPool _dealThreads;
     std::shared_ptr<TaskQueue> _taskQueue;
     beluga::ConnFunctor _onConnection;
+    EventLoop _eventLoop;
+    beluga::ChannelPtr _listenChannel;
 };
 
 

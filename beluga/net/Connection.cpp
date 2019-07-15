@@ -48,7 +48,6 @@ void Connection::handleRead(){
 
     //更新时间轮-心跳检测
     acceptThread->updateConn(shared_from_this());
-
     std::vector<std::string> msgs=_buffer.readStream();
     // 基于当前系统的当前日期/时间
     //time_t now = time(0);
@@ -79,7 +78,7 @@ std::shared_ptr<Channel> Connection::getChannel(){
     return _channel;
 }
 int Connection::flushBuffer(){
-    //std::cout<<"Connection::flushBuffer()"<<std::endl;
+    
     return _buffer.flushSend();
 }
 std::shared_ptr<AcceptThread> Connection::getAcceptThread(){

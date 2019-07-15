@@ -21,7 +21,7 @@ public:
     typedef std::function<void()> Functor;
     EventLoop(int size=10000,int timer_ms=50);
     ~EventLoop();
-    void startLoop();
+    void startLoop(beluga::LoopMethod method=beluga::LoopMethod::detach);
     void HandleLoop();
     void addChannel(Epoll::ptrChannel channel);
     void removeChannel(Epoll::ptrChannel channel);
@@ -31,6 +31,10 @@ public:
     void assertInLoopThread();
     void addPendingFunctor(Functor functor);
     void doPendingFunctors();
+    bool isRuning(){
+        return _runing;
+    }
+    void addTimeFunctor(Functor functor);
 private:
     Epoll _epoll;
     Timer _timer;
@@ -39,6 +43,7 @@ private:
     const std::thread::id _threadId;
     std::vector<Functor> _pendingFunctors;
     std::mutex _mutex;
+    std::vector<Functor> _timeFunctors;
 };
 
 #endif //HCCSERVER_EVENTLOOP_H

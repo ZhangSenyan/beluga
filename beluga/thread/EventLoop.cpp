@@ -19,10 +19,24 @@ EventLoop::~EventLoop(){
 
 }
 
-void EventLoop::startLoop(){
+void EventLoop::startLoop(beluga::LoopMethod method){
     _runing=true;
     std::cout<<" start Loop ... "<<std::endl;
-    _t.detach();
+    switch(method){
+        case beluga::LoopMethod::detach:{
+            _t.detach();
+            break;
+        }
+        case beluga::LoopMethod::join:{
+            _t.join();
+            break;
+        } 
+        default:{
+            _t.detach();
+            break;
+        }
+    }
+    
 }
 
 void EventLoop::HandleLoop(){
@@ -47,7 +61,16 @@ void EventLoop::removeChannel(Epoll::ptrChannel channel){
 }
 
 void EventLoop::timerHandle() {
+    if(_timeFunctors.empty())
+        return;
+    
+    for(auto timeFunctor:_timeFunctors){
+        timeFunctor();
+    }
+}
 
+void EventLoop::addTimeFunctor(Functor functor){
+    _timeFunctors.push_back(functor);
 }
 
 Epoll* EventLoop::getEpoll(){

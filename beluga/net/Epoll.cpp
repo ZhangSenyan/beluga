@@ -35,7 +35,7 @@ int Epoll::updateChannel(ptrChannel channel){
     memset(&ev, 0, sizeof(ev));
     ev.events = channel->getEvents();
     ev.data.fd = channel->getFd();
-
+    //std::cout<<"Epoll::updateChannel: FD="<<ev.data.fd<<" events="<<ev.events<<std::endl;
     if (epoll_ctl(_waitFd, EPOLL_CTL_MOD, channel->getFd(), &ev) < 0)
     {
         fprintf(stderr, "epoll set modify error: fd=%d\n", channel->getFd());

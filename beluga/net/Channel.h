@@ -9,19 +9,19 @@
 #include <functional>
 #include <sys/epoll.h>
 #include <memory>
-
+#include "beluga/beluga.h"
 class Connection;
 
 class Channel{
 
 public:
-    typedef std::function<void(void)> CallFunc;
-    Channel(int fd);
+    
+    explicit Channel(int fd);
     ~Channel();
 private:
-    CallFunc _readhandler;
-    CallFunc _writehandler;
-    CallFunc _errorhandler;
+    beluga::CallFunc _readhandler;
+    beluga::CallFunc _writehandler;
+    beluga::CallFunc _errorhandler;
     int _fd;
     __uint32_t _events;
     __uint32_t _revents;
@@ -29,11 +29,12 @@ private:
 
 public:
     void setHolder(const std::shared_ptr<Connection> &holder);
-    void setReadHandler(CallFunc readhandler);
-    void setWriteHandler(CallFunc writehandler);
-    void setErrorHandler(CallFunc errorhandler);
+    void setReadHandler(beluga::CallFunc readhandler);
+    void setWriteHandler(beluga::CallFunc writehandler);
+    void setErrorHandler(beluga::CallFunc errorhandler);
     void handleEvents();
     int getFd();
+    void setFD(int fd);
     __uint32_t getEvents();
     void setEvents(__uint32_t events);
     __uint32_t getRevents();

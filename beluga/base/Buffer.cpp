@@ -15,7 +15,7 @@
 #include "beluga/base/Util.h"
 #include "beluga/net/Connection.h"
 
-#define BUFFER_SIZE 4096
+#define BUFFER_SIZE 16384
 Buffer::Buffer(int fd,Connection *holder):_fd(fd),recvIndexEnd(0),sendIndexEnd(0),_holder(holder){
     recvbuffer=new char[BUFFER_SIZE];
     sendbuffer=new char[BUFFER_SIZE];
