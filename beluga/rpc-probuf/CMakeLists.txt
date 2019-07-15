@@ -15,6 +15,7 @@ add_library(
 )
 target_link_libraries(
         rpc_lib
+        log_lib
         ${Protobuf_LIBRARIES}
 )
 

@@ -5,7 +5,7 @@
 
 #include "protobuf/echo.pb.h"
 #include "beluga/rpc-probuf/RPC_Server.h"
-
+#include "beluga/log/LogStream.h"
 class MySumService : public belugaEcho::EchoService {
 public:
     virtual void Echo(::google::protobuf::RpcController* /* controller */,
