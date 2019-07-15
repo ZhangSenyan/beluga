@@ -19,9 +19,9 @@ install:
   - ./configure  --prefix=/usr/local/protobuf
   - make
   - make check
-  - make install
-  - export PATH=$PATH:/usr/local/protobuf/bin
-  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/protobuf/lib
+  - sudo make install
+  - sudo export PATH=$PATH:/usr/local/protobuf/bin
+  - sudo export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/protobuf/lib
 env:
   - BUILD_TYPE=debug
   - BUILD_TYPE=release
