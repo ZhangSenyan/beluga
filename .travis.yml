@@ -17,6 +17,7 @@ install:
   - cd protobuf-3.1.0/
   - ls
   - ./autogen.sh
+  - ./configure  --prefix=/usr/local/protobuf
   - make
   - make check
   - sudo make install
