@@ -30,6 +30,7 @@ env:
 script:
   - cd beluga
   - SOURCE_DIR=`pwd`
+  - find /usr/local -name port_def.inc
   - cat /usr/local/include/google/protobuf/port_def.inc
   - g++ --version
   - cmake --version
