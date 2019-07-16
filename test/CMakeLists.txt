@@ -6,7 +6,6 @@ include_directories(
         ../beluga/thread
 )
 
-
 add_executable(testMem testMem.cpp ../beluga/TCPServer.cpp ../beluga/TCPClient.cpp)
 target_link_libraries(testMem
         base_lib
