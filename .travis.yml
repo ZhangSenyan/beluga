@@ -10,7 +10,6 @@ install:
   - sudo apt-get install libprotobuf-dev protobuf-compiler libprotoc-dev
   - sudo apt-get install autoconf automake libtool curl make g++ unzip
   - cd ..
-  - pwd
   - git clone -b v3.8.0 https://github.com/protocolbuffers/protobuf.git
   - cd protobuf
   - git submodule update --init --recursive
@@ -28,9 +27,6 @@ env:
 script:
   - cd beluga
   - SOURCE_DIR=`pwd`
-  - protoc --version
-  - find /usr/local -name port_def.inc
-  - cat /usr/local/include/google/protobuf/port_def.inc
   - g++ --version
   - cmake --version
   - cd $SOURCE_DIR
