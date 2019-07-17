@@ -32,7 +32,6 @@ static void InitDefaultsscc_info_RPCMsg_beluga_2eproto() {
   ::beluga::RPCMsg::InitAsDefaultInstance();
 }
 
-
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_RPCMsg_beluga_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsscc_info_RPCMsg_beluga_2eproto}, {}};
 
