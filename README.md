@@ -44,13 +44,3 @@ make
 
 # Refrence
 
-主要参考[muduo],并添加了一些自己的设计，底层代码大部分是自己实现的。
-
-另外也参考了[linyacool-WebServer],[evpp],[libevent]等。
-
-[linyacool-WebServer]:https://github.com/linyacool/WebServer
-
-[muduo]:https://github.com/chenshuo/muduo
-[libevent]:https://github.com/libevent/libevent
-[asio]:http://www.boost.org/
-[evpp]:https://github.com/Qihoo360/evpp
