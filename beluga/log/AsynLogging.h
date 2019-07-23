@@ -17,6 +17,7 @@
 #include "beluga/log/LogBuffer.h"
 #include "beluga/log/ObjectPool.h"
 
+
 class AsynLogging {
 public:
     typedef LogBuffer<4096> BigBuffer;
