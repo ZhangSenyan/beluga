@@ -17,4 +17,7 @@ add_library(
         MemoryBlock.h
         Alloctor.h
         Alloctor.cpp
+        CountDownLatch.cc
 )
+
+

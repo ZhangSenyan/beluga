@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef _ALLOCTOR_H
-#define _ALLOCTOR_H
+#ifndef BELUGA_ALLOCTOR_H
+#define BELUGA_ALLOCTOR_H
 
 #include <cstddef>
 
@@ -20,4 +20,4 @@ void* operator new[](size_t size);
 void operator delete[](void* p);
 
 
-#endif
+#endif //BELUGA_ALLOCTOR_H

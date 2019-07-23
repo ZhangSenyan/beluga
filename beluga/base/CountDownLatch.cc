@@ -1,41 +1,49 @@
-// Use of this source code is governed by a BSD-style license
-// that can be found in the License file.
-//
-// Author: Shuo Chen (chenshuo at chenshuo dot com)
+/**
+ * @author Zhang Senyan
+ * Date: 2019-06-10
+ */
 
-#include "muduo/base/CountDownLatch.h"
 
-using namespace muduo;
+#include "beluga/base/CountDownLatch.h"
 
+// 构造函数
 CountDownLatch::CountDownLatch(int count)
-  : mutex_(),
-    condition_(mutex_),
-    count_(count)
+  : _mutex(),
+    _condition(),
+    _count(count)
 {
 }
 
-void CountDownLatch::wait()
-{
-  MutexLockGuard lock(mutex_);
-  while (count_ > 0)
-  {
-    condition_.wait();
-  }
-}
-
+/**
+ * Function： 每来一个线程 count值 减 1
+ * 当所有线程都到达时，通知所有线程开始运行
+ */
 void CountDownLatch::countDown()
 {
-  MutexLockGuard lock(mutex_);
-  --count_;
-  if (count_ == 0)
-  {
-    condition_.notifyAll();
-  }
+    std::unique_lock<std::mutex> l(_mutex);
+
+    //count值 减 1
+    --_count;
+    if (_count == 0)
+    {
+        //所有线程已经到齐，通知所有线程
+        _condition.notify_all();
+    }
+    else{
+
+        //不满足条件就循环等待
+        while (_count > 0)
+        {
+           _condition.wait(l);
+        }
+
+    }
 }
 
+// 返回当前到达栅栏的进程数量
 int CountDownLatch::getCount() const
 {
-  MutexLockGuard lock(mutex_);
-  return count_;
+    std::unique_lock<std::mutex> l(_mutex);
+    return _count;
 }
 

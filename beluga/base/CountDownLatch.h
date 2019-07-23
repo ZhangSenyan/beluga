@@ -1,34 +1,41 @@
-// Use of this source code is governed by a BSD-style license
-// that can be found in the License file.
-//
-// Author: Shuo Chen (chenshuo at chenshuo dot com)
+/**
+ * @author Zhang Senyan
+ * Date: 2019-06-10
+ *
+ * 同步屏障
+ */
 
-#ifndef MUDUO_BASE_COUNTDOWNLATCH_H
-#define MUDUO_BASE_COUNTDOWNLATCH_H
 
-#include "muduo/base/Condition.h"
-#include "muduo/base/Mutex.h"
+#ifndef BELUGA_COUNTDOWNLATCH_H
+#define BELUGA_COUNTDOWNLATCH_H
 
-namespace muduo
-{
+#include <mutex>
+#include <condition_variable>
+
+#include "beluga/base/noncopyable.h"
 
 class CountDownLatch : noncopyable
 {
- public:
+public:
+    //构造函数
+    explicit CountDownLatch(int count);
 
-  explicit CountDownLatch(int count);
 
-  void wait();
+    void countDown();
 
-  void countDown();
+    //获取计数值
+    int getCount() const;
 
-  int getCount() const;
+private:
+    //锁
+    mutable std::mutex _mutex;
 
- private:
-  mutable MutexLock mutex_;
-  Condition condition_ GUARDED_BY(mutex_);
-  int count_ GUARDED_BY(mutex_);
+    //条件变量
+    std::condition_variable _condition;
+
+    //计数值
+    int _count;
 };
 
-}  // namespace muduo
-#endif  // MUDUO_BASE_COUNTDOWNLATCH_H
+
+#endif  // BELUGA_COUNTDOWNLATCH_H

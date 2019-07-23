@@ -1,12 +1,19 @@
-// @Author Lin Ya
-// @Email xxbbb@vip.qq.com
-#pragma once
+/**
+ * @author Zhang Senyan
+ * Date: 2019-06-15
+ *
+ * @refitem Shuo Chen ( muduo )
+ */
+
+#ifndef BELUGA_CURRENTTHREAD_H
+#define BELUGA_CURRENTTHREAD_H
+
 #include <stdint.h>
 
 
 namespace CurrentThread
 {
-    // internal
+
     extern __thread int t_cachedTid;
     extern __thread char t_tidString[32];
     extern __thread int t_tidStringLength;
@@ -21,12 +28,12 @@ namespace CurrentThread
         return t_cachedTid;
     }
 
-    inline const char* tidString() // for logging
+    inline const char* tidString()
     {
         return t_tidString;
     }
 
-    inline int tidStringLength() // for logging
+    inline int tidStringLength()
     {
         return t_tidStringLength;
     }
@@ -37,3 +44,4 @@ namespace CurrentThread
     }
 }
 
+#endif //BELUGA_CURRENTTHREAD_H

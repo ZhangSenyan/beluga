@@ -3,8 +3,8 @@
  * Date: 2019-06-10
  */
 
-#ifndef HCCSERVER_BASKET_H
-#define HCCSERVER_BASKET_H
+#ifndef BELUGA_BASKET_H
+#define BELUGA_BASKET_H
 
 #include <unordered_set>
 #include <memory>
@@ -36,4 +36,4 @@ struct Basket {
 };
 
 
-#endif //HCCSERVER_BASKET_H
+#endif //BELUGA_BASKET_H
