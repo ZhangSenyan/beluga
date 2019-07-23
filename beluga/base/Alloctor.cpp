@@ -1,7 +1,7 @@
 
 /**
  * @author Zhang Senyan
- * Date: 19/05/2019
+ * Date: 2019-05-19
  *
  * @details 内存池相关接口函数
  * 如果要开启内存池，需要  #define USE_MEMORY_POOL

@@ -1,10 +1,18 @@
-// @Author Lin Ya
-// @Email xxbbb@vip.qq.com
-// 引用muduo源码
-#pragma once
-#include "beluga/base/noncopyable.h"
+/**
+ * @author Zhang Senyan
+ * Date: 2019-04-10
+ *
+ * @details 自定义锁
+ * @refitem Shuo Chen (muduo)
+ */
+
+#ifndef BELUGA_MUTEXLOCK_H
+#define BELUGA_MUTEXLOCK_H
+
 #include <pthread.h>
 #include <cstdio>
+
+#include "beluga/base/noncopyable.h"
 
 class MutexLock: noncopyable
 {
@@ -54,3 +62,5 @@ public:
 private:
     MutexLock &mutex;
 };
+
+#endif //BELUGA_MUTEXLOCK_H

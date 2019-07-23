@@ -104,6 +104,7 @@ int Buffer::write(const char* str,uint32_t len){
 
     return 0;
 }
+
 /**
  * Function： 冲刷发送缓冲区
  * 即网络可以写入时，将缓冲区的数据发送到网络上
