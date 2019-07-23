@@ -11,6 +11,8 @@ class Connection;
 class CellTask;
 class TaskQueue;
 class Channel;
+class Basket;
+
 namespace beluga{
     typedef std::shared_ptr<Connection> ConnPtr;
     typedef std::function<void(const ConnPtr&)> ConnFunctor;
@@ -19,6 +21,7 @@ namespace beluga{
     typedef std::shared_ptr<Connection> ConnPtr;
     typedef std::shared_ptr<TaskQueue> TaskQueuePtr;
     typedef std::shared_ptr<CellTask> CellTaskPtr;
+    typedef std::shared_ptr<Basket> BasketPtr;
     typedef std::function<void(CellTaskPtr)> WorkFunctor;
     typedef std::shared_ptr<Channel> ChannelPtr;
     typedef std::function<void(void)> CallFunc;
