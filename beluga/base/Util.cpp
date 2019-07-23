@@ -1,6 +1,10 @@
-//
-// Created by zhsy on 19-6-8.
-//
+/**
+ * @author Zhang Senyan
+ * Date: 2019-04-03
+ *
+ * 常用工具
+ */
+
 #include <iostream>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -10,10 +14,15 @@
 #include <unistd.h>
 #include <sys/timerfd.h>
 
-#include "Util.h"
+#include "beluga/base/Util.h"
 
+/**
+ * 创建socket 并启动监听
+ * @param port ： 监听端口
+ * @return 监听句柄
+ */
 int socketCreate(int port){
-    std::cout<<"socketCreate"<<std::endl;
+
     //创建SOCKET
     int fd=socket(AF_INET,SOCK_STREAM,0);
     if(fd==-1){
@@ -49,6 +58,12 @@ int socketCreate(int port){
     return fd;
 }
 
+/**
+ * 将文件句柄设为非阻塞
+ * @param sockfd ：文件句柄
+ * @return  0 : 成功
+ *         -1： 失败
+ */
 int setnonblocking(int sockfd)
 {
     if (fcntl(sockfd, F_SETFL, fcntl(sockfd, F_GETFD, 0)|O_NONBLOCK) == -1) {
@@ -56,6 +71,13 @@ int setnonblocking(int sockfd)
     }
     return 0;
 }
+
+/**
+ * 将文件句柄设为阻塞
+ * @param sockfd ：文件句柄
+ * @return  0 : 成功
+ *         -1： 失败
+ */
 int setblocking(int sockfd)
 {
     if (fcntl(sockfd, F_SETFL, fcntl(sockfd, F_GETFD, 0)&(~O_NONBLOCK)) == -1) {
@@ -64,6 +86,16 @@ int setblocking(int sockfd)
     return 0;
 }
 
+/**
+ * 从当前文件句柄中读取n个字节，直到读满或者错误
+ *
+ * @param   fd   文件句柄
+ * @param   ptr  输入缓冲区
+ * @param   n    要读取的字节数量
+ *
+ * @return  -1   读取0字节，出现错误
+ *          >0   实际读取的字节数量
+ */
 ssize_t readn(int fd,char *ptr,size_t n){
 
     size_t nleft=n;
@@ -85,6 +117,16 @@ ssize_t readn(int fd,char *ptr,size_t n){
 
 }
 
+/**
+ * 向当前文件句柄中写入n个字节
+ *
+ * @param   fd   文件句柄
+ * @param   ptr  输出缓冲区
+ * @param   n    要写入的字节数量
+ *
+ * @return  -1   写入0字节，出现错误
+ *          >0   实际写入的字节数量
+ */
 ssize_t writen(int fd,char *ptr,size_t n){
     size_t nleft=n;
     ssize_t nwrite;
@@ -104,33 +146,42 @@ ssize_t writen(int fd,char *ptr,size_t n){
 
 }
 
-
+/**
+ * 创建定时器句柄
+ * @param ms 定时时间
+ * @return -1 创建失败
+ *         >0 定时器句柄
+ */
 int timerfd_init(unsigned long ms)
 {
-    int tmfd;
-    int ret;
+
     struct itimerspec new_value;
     new_value.it_value.tv_sec = ms/1000;
     new_value.it_value.tv_nsec =(ms%1000)*1000000;
     new_value.it_interval.tv_sec = ms/1000;
     new_value.it_interval.tv_nsec = (ms%1000)*1000000;
 
-    tmfd = timerfd_create(CLOCK_MONOTONIC, 0);
+    //创建定时器句柄
+    int tmfd = timerfd_create(CLOCK_MONOTONIC, 0);
     if (tmfd < 0) {
-        std::cout<<"timerfd_create error, Error:["<<errno<<"]"<<std::endl;
+        perror("TimerFd Create");
         return -1;
     }
-    ret = timerfd_settime(tmfd, 0, &new_value, NULL);
-    if (ret < 0) {
-        std::cout<<"timerfd_settime error, Error:["<<errno<<"]"<<std::endl;
+
+    //设置定时时间
+    if (0 > timerfd_settime(tmfd, 0, &new_value, NULL)) {
+        perror("Set Timer");
         close(tmfd);
         return -1;
     }
+
     return tmfd;
 }
 
-/*
- * 获取当前执行目录
+
+/**
+ * 获取当前工作目录
+ * @return 以字符串形式返回
  */
 std::string getCWD(){
     std::string cwd;
