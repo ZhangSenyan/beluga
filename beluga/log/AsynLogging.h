@@ -42,10 +42,7 @@ public:
     AsynLogging();
     ~AsynLogging();
 
-    //设定Log日志输出路径
     void setLogPath(std::string logPath);
-
-    //启动日志线程
     void startLoop();
 
     //写入日志-字符串

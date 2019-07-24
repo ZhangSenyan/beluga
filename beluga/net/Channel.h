@@ -69,8 +69,6 @@ public:
 
     void removeEvents(__uint32_t events);
 
-
-    void updateEvents();
     bool expired();
 };
 

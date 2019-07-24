@@ -8,12 +8,12 @@
 
 //构造函数
 AsynLogging::AsynLogging():
-            _objectPool(),
-            _curBuffer(nullptr),
-            _maxSize(100),
-            _runing(false),
-            _t(std::mem_fun(&AsynLogging::HandleLoop),this),
-            _logFile(){
+        _objectPool(),
+        _curBuffer(nullptr),
+        _maxSize(100),
+        _runing(false),
+        _t(std::mem_fun(&AsynLogging::HandleLoop),this),
+        _logFile(){
 
     _curBuffer=_objectPool.alloc();
 }

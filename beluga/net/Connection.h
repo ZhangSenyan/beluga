@@ -1,9 +1,11 @@
-//
-// Created by zhsy on 19-6-29.
-//
+/**
+ * @author Zhang Senyan
+ * Date: 2019-04-13
+ *
+ */
 
-#ifndef HCCSERVER_CONNECTION_H
-#define HCCSERVER_CONNECTION_H
+#ifndef BELUGA_CONNECTION_H
+#define BELUGA_CONNECTION_H
 #include <iostream>
 #include <_G_config.h>
 #include <functional>
@@ -49,4 +51,4 @@ private:
 };
 
 
-#endif //HCCSERVER_CONNECTION_H
+#endif //BELUGA_CONNECTION_H
