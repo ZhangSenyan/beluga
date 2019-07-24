@@ -1,9 +1,12 @@
-//
-// Created by zhsy on 19-7-10.
-//
+/**
+ * @author Zhang Senyan
+ * Date: 2019-06-19
+ *
+ * 日志文件写入
+ */
 
-#ifndef HCCSERVER_LOGFILE_H
-#define HCCSERVER_LOGFILE_H
+#ifndef BELUGA_LOGFILE_H
+#define BELUGA_LOGFILE_H
 
 #include <string>
 #include <fstream>
@@ -18,57 +21,26 @@
 
 class LogFile {
 public:
-    explicit LogFile(std::string logPath=getCWD()+"/test.log"):_logPath(logPath),_fp(fopen(logPath.c_str(), "ae")){
-        std::cout<<"LogFile"<<std::endl;
-    }
-    ~LogFile(){
 
-    }
-    void resetLogPath(std::string logPath){
-        flush();
-        fclose(_fp);
-        _logPath=logPath;
-        std::cout<<logPath<<std::endl;
-        _fp=fopen(logPath.c_str(), "ae");
-        if(_fp=fopen(logPath.c_str(), "ae")){
-            std::cout<<"Reset Path:"<<logPath<<std::endl;
-        }
-        else{
-            perror("Reset Path");
-            exit(-1);
-        }
-    }
-    size_t write(const char* logline, size_t len)
-    {
-        return fwrite_unlocked(logline, 1, len, _fp);
-    }
-    void flush()
-    {
-        fflush(_fp);
-    }
-    void append(const char* logline, const size_t len)
-    {
+    //构造函数
+    explicit LogFile(std::string logPath=getCWD()+"/test.log");
+    ~LogFile();
 
-        size_t n = write(logline, len);
-        size_t remain = len - n;
-        while (remain > 0)
-        {
-            size_t x = write(logline + n, remain);
-            if (x == 0)
-            {
-                int err = ferror(_fp);
-                if (err)
-                    fprintf(stderr, "AppendFile::append() failed !\n");
-                break;
-            }
-            n += x;
-            remain = len - n;
-        }
-    }
+    //设置Log文件路径
+    void resetLogPath(std::string logPath);
+
+    //写入文件
+    size_t write(const char* logline, size_t len);
+
+    //冲刷缓冲区
+    void flush();
+
+    //
+    void append(const char* logline, const size_t len);
 private:
     std::string _logPath;
     FILE* _fp;
 };
 
 
-#endif //HCCSERVER_LOGFILE_H
+#endif //BELUGA_LOGFILE_H

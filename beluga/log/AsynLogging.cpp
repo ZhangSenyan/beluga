@@ -1,23 +1,31 @@
-//
-// Created by zhsy on 19-7-10.
-//
+/**
+ * @author Zhang Senyan
+ * Date: 2019-06-25
+ *
+ */
 
 #include "AsynLogging.h"
+
+
 AsynLogging::AsynLogging():_objectPool(),_curBuffer(nullptr),_maxSize(100),_runing(false),
               _t(std::mem_fun(&AsynLogging::HandleLoop),this),_logFile(){
 
     _curBuffer=_objectPool.alloc();
 }
+
 AsynLogging::~AsynLogging(){
 
 }
+
 void AsynLogging::setLogPath(std::string logPath){
     _logFile.resetLogPath(logPath);
 }
+
 void AsynLogging::startLoop(){
     _t.detach();
     _runing=true;
 }
+
 bool AsynLogging::append(const char *ch,size_t len){
 
     std::unique_lock<std::mutex> locklog(_mutexLog);
@@ -72,6 +80,8 @@ void AsynLogging::HandleLoop(){
 
     }
 }
+
+
 void AsynLogging::curBufferFlush(){
     if (_buffQueue.size() > _maxSize)
         return;
