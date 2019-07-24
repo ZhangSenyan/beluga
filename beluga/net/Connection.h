@@ -22,6 +22,7 @@ class Channel;
 class CellTask;
 class AcceptThread;
 
+
 struct Connection:std::enable_shared_from_this<Connection>{
 public:
     typedef std::shared_ptr<Connection> ConnPtr;
@@ -54,17 +55,20 @@ public:
     void closeListenEvent();
 
     //将数据写入缓冲区
-    int writeBuffer(std::string result);
+    void writeBuffer(std::string result);
 
     void setAcceptThread(std::shared_ptr<AcceptThread> acceptThread);
 
 private:
 
     int _fd;
+
     struct sockaddr_in _clientAddr;
-    size_t _expiredTime;
+
     std::shared_ptr<Channel> _channel;
+
     std::weak_ptr<AcceptThread> _acceptThread;  //智能相互引用问题
+
     Buffer _buffer;
 };
 

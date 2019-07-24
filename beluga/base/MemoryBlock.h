@@ -51,10 +51,8 @@ public:
     //归还一个内存单元
     void dealloc(void* p);
 
-    //重载operator new
     void* operator new(size_t size);
 
-    //重载operator delete
     void operator delete(void* p);
 
 private:

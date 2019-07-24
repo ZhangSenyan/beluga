@@ -104,7 +104,7 @@ int TimingWheel::updateConn(int connfd){
     if(_connMap.find(connfd)==_connMap.end()){
 
         //连接在时间轮里不存在
-        LOG_WARN<<"Add a connection when update timing wheel"<<LOG_ENDL;
+        //LOG_WARN<<"Add a connection when update timing wheel"<<LOG_ENDL;
         std::cout<<"Warning: Add a connection when update timing wheel"<<std::endl;
 
         //添加连接
