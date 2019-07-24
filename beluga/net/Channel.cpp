@@ -1,6 +1,8 @@
-//
-// Created by zhsy on 19-6-16.
-//
+/**
+ * @author Zhang Senyan
+ * Date: 2019-04-13
+ *
+ */
 
 #include "Channel.h"
 #include "beluga/net/Connection.h"
@@ -57,7 +59,7 @@ void Channel::handleEvents(){
     }
 
 }
-int Channel::getFd(){
+int Channel::getFD(){
     return _fd;
 }
 void Channel::setFD(int fd){

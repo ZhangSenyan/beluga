@@ -15,45 +15,45 @@ Epoll::~Epoll(){
 
 bool Epoll::addChannel(ptrChannel channel){
 
-    channelPool[channel->getFd()] = channel;
+    channelPool[channel->getFD()] = channel;
     struct epoll_event ev;
     memset(&ev, 0, sizeof(ev));
     ev.events = channel->getEvents();
-    ev.data.fd = channel->getFd();
+    ev.data.fd = channel->getFD();
 
-    if (epoll_ctl(_waitFd, EPOLL_CTL_ADD, channel->getFd(), &ev) < 0)
+    if (epoll_ctl(_waitFd, EPOLL_CTL_ADD, channel->getFD(), &ev) < 0)
     {
-        fprintf(stderr, "epoll set insertion error: fd=%d\n", channel->getFd());
+        fprintf(stderr, "epoll set insertion error: fd=%d\n", channel->getFD());
         return -1;
     }
 
 }
 int Epoll::updateChannel(ptrChannel channel){
 
-    channelPool[channel->getFd()] = channel;
+    channelPool[channel->getFD()] = channel;
     struct epoll_event ev;
     memset(&ev, 0, sizeof(ev));
     ev.events = channel->getEvents();
-    ev.data.fd = channel->getFd();
+    ev.data.fd = channel->getFD();
     //std::cout<<"Epoll::updateChannel: FD="<<ev.data.fd<<" events="<<ev.events<<std::endl;
-    if (epoll_ctl(_waitFd, EPOLL_CTL_MOD, channel->getFd(), &ev) < 0)
+    if (epoll_ctl(_waitFd, EPOLL_CTL_MOD, channel->getFD(), &ev) < 0)
     {
-        fprintf(stderr, "epoll set modify error: fd=%d\n", channel->getFd());
+        fprintf(stderr, "epoll set modify error: fd=%d\n", channel->getFD());
         return -1;
     }
 
 }
 
 bool Epoll::removeChannel(ptrChannel channel){
-    channelPool.erase(channel->getFd());
+    channelPool.erase(channel->getFD());
     struct epoll_event ev;
     memset(&ev, 0, sizeof(ev));
     ev.events = 0;
-    ev.data.fd = channel->getFd();
+    ev.data.fd = channel->getFD();
 
-    if (epoll_ctl(_waitFd, EPOLL_CTL_DEL, channel->getFd(), &ev) < 0)
+    if (epoll_ctl(_waitFd, EPOLL_CTL_DEL, channel->getFD(), &ev) < 0)
     {
-        fprintf(stderr, "epoll set delete error: fd=%d\n", channel->getFd());
+        fprintf(stderr, "epoll set delete error: fd=%d\n", channel->getFD());
         return -1;
     }
 }
@@ -76,5 +76,5 @@ Epoll::VectorCh Epoll::poll(){
     return v;
 }
 bool Epoll::find(ptrChannel channel){
-    return channelPool.find(channel->getFd())!=channelPool.end();
+    return channelPool.find(channel->getFD())!=channelPool.end();
 }
