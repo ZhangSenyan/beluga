@@ -1,6 +1,8 @@
-//
-// Created by zhsy on 19-6-29.
-//
+/**
+ * @author Zhang Senyan
+ * Date: 2019-04-15
+ *
+ */
 
 
 #include <functional>
@@ -27,6 +29,7 @@ Connection::~Connection() {
     std::cout<<"Drop connection : "<<std::endl;
 }
 
+
 int Connection::getFd(){
     return _fd;
 }
@@ -34,12 +37,15 @@ int Connection::getFd(){
 void Connection::setFd(int fd){
     _fd=fd;
 }
+
 std::string Connection::getIP() const{
     return inet_ntoa(_clientAddr.sin_addr);
 }
+
 int Connection::getPort() const{
     return ntohs(_clientAddr.sin_port);
 }
+
 void Connection::handleRead(){
     assert(!_acceptThread.expired());
     std::shared_ptr<AcceptThread> acceptThread=_acceptThread.lock();
