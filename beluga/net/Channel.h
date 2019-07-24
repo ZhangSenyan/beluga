@@ -1,6 +1,9 @@
-//
-// Created by zhsy on 19-6-16.
-//
+/**
+ * @author Zhang Senyan
+ * Date: 2019-04-13
+ *
+ * 对象池
+ */
 
 #ifndef HCCSERVER_CHANNEL_H
 #define HCCSERVER_CHANNEL_H
@@ -9,7 +12,9 @@
 #include <functional>
 #include <sys/epoll.h>
 #include <memory>
+
 #include "beluga/beluga.h"
+
 class Connection;
 
 class Channel{

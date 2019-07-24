@@ -3,7 +3,6 @@ message("message from ./net")
 
 add_library(log_lib SHARED
         LogFile.cpp
-        ObjectPool.cpp
         AsynLogging.cpp
         LogStream.h
         LogStream.cpp

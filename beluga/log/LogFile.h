@@ -35,10 +35,14 @@ public:
     //冲刷缓冲区
     void flush();
 
-    //
+    //写入指定长度的log文件
     void append(const char* logline, const size_t len);
 private:
+
+    //log文件路径
     std::string _logPath;
+
+    //日志文件标识符
     FILE* _fp;
 };
 

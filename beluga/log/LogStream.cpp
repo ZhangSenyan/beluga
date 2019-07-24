@@ -1,6 +1,12 @@
-// @Author Lin Ya
-// @Email xxbbb@vip.qq.com
-#include "LogStream.h"
+/**
+ * @author Zhang Senyan
+ * Date: 2019-06-27
+ *
+ * 日志接口
+ * @refitem Shuo Chen(muduo)
+ */
+
+
 #include <algorithm>
 #include <limits>
 #include <cassert>
@@ -8,7 +14,13 @@
 #include <cstdint>
 #include <cstdio>
 
+#include "LogStream.h"
 
+
+/**
+ * 重载 operator<<
+ * 转调用 asynLogging.append(v);
+ */
 LogStream& LogStream::operator<<(short v)
 {
     *this << static_cast<int>(v);
