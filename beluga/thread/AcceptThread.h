@@ -1,9 +1,12 @@
-//
-// Created by zhsy on 19-6-8.
-//
+/**
+ * @author Zhang Senyan
+ * Date: 2019-04-20
+ *
+ * SubReactor: IO Thread
+ */
 
-#ifndef HCCSERVER_ACCEPTTHREAD_H
-#define HCCSERVER_ACCEPTTHREAD_H
+#ifndef BELUGA_ACCEPTTHREAD_H
+#define BELUGA_ACCEPTTHREAD_H
 
 
 #include <iostream>
@@ -15,9 +18,17 @@
 #include "beluga/base/TimingWheel.h"
 #include "beluga/thread/EventLoop.h"
 
+
+
 class AcceptThread :public EventLoop{
 public:
 
+    /**
+     * 构造函数
+     * @param size ： 本线程允许的最大连接数
+     * @param timer_ms  ： 定时周期
+     *                    用于定时定量发送数据
+     */
     AcceptThread(int size=10000,int timer_ms=50);
     ~AcceptThread();
     void addConnction(std::shared_ptr<Connection> conn);
@@ -43,4 +54,4 @@ private:
 };
 
 
-#endif //HCCSERVER_ACCEPTTHREAD_H
+#endif //BELUGA_ACCEPTTHREAD_H

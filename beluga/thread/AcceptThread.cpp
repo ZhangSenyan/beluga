@@ -1,6 +1,8 @@
-//
-// Created by zhsy on 19-6-8.
-//
+/**
+ * @author Zhang Senyan
+ * Date: 2019-04-20
+ *
+ */
 
 #include "AcceptThread.h"
 

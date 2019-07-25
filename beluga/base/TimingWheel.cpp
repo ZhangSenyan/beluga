@@ -9,7 +9,7 @@
 #include <cassert>
 
 #include "beluga/base/TimingWheel.h"
-#include "beluga/log/LogStream.h"
+//#include "beluga/log/LogStream.h"
 
 /**
  * 构造函数
