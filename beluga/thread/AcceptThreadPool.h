@@ -1,9 +1,11 @@
-//
-// Created by zhsy on 19-6-8.
-//
+/**
+ * @author Zhang Senyan
+ * Date: 2019-04-25
+ *
+ */
 
-#ifndef HCCSERVER_ACCEPTTHREADPOOL_H
-#define HCCSERVER_ACCEPTTHREADPOOL_H
+#ifndef BELUGA_ACCEPTTHREADPOOL_H
+#define BELUGA_ACCEPTTHREADPOOL_H
 
 #include <cstddef>
 #include <vector>
@@ -11,6 +13,8 @@
 
 #include "beluga/thread/AcceptThread.h"
 #include "beluga/net/Connection.h"
+
+
 class AcceptThreadPool {
 public:
     AcceptThreadPool(int size,int maxConnSize);
@@ -31,4 +35,4 @@ private:
 
 
 
-#endif //HCCSERVER_ACCEPTTHREADPOOL_H
+#endif //BELUGA_ACCEPTTHREADPOOL_H
