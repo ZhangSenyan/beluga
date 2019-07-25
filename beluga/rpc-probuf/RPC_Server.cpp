@@ -5,7 +5,7 @@
  */
 
 #include "RPC_Server.h"
-#include "beluga/log/LogStream.h"
+//#include "beluga/log/LogStream.h"
 
 using namespace beluga;
 
@@ -79,7 +79,7 @@ void RPC_Server::onResult(::google::protobuf::Message* responseMsg,
 void RPC_Server::onConnection(const ConnPtr &connPtr){
 
     //接收一个新连接
-    LOG_INFO<<"Accept a new Connection: IP="<<connPtr->getIP()<<" PORT="<<connPtr->getPort()<<LOG_ENDL;
+    //LOG_INFO<<"Accept a new Connection: IP="<<connPtr->getIP()<<" PORT="<<connPtr->getPort()<<LOG_ENDL;
 }
 
 void RPC_Server::onTimer(){
