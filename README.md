@@ -46,8 +46,104 @@ make
 
 
 # Examples
+## A chat TCP server
+
+```cpp
+#include <set>
+
+#include "beluga/TCPServer.h"
+#include "beluga/beluga.h"
+#include "beluga/log/LogStream.h"
+
+using namespace beluga;
+
+class ChatServer{
+public:
+    explicit ChatServer(int port):_server(port){
+        _server.setMessageCallBack(std::bind(&ChatServer::onMessage,this,_1));
+        _server.setConnectionCallBack(std::bind(&ChatServer::onConnection,this,_1));
+        _server.setDropConnectionCallBack(std::bind(&ChatServer::onDropConnection,this,_1));
+    }
+    void onMessage(CellTaskPtr cellTask){
+
+        //消息处理函数
+        LOG_INFO<<cellTask->getConnAddress()<<" echo:"<<cellTask->getTaskString()<<LOG_ENDL;
+
+        std::string msg=cellTask->getTaskString();
+        ConnPtr connPtr=cellTask->getConn();
+
+        for(auto &conn:connSet){
+            if(conn!=connPtr){
+                conn->writeBuffer(msg);
+            }
+        }
+
+    }
+    void onConnection(const ConnPtr &connPtr){
+
+        //接收一个新连接
+        LOG_INFO<<"Accept a new Connection: IP="<<connPtr->getIP()<<" PORT="<<connPtr->getPort()<<LOG_ENDL;
+
+        connSet.insert(connPtr);
 
 
+    }
+    void onDropConnection(const ConnPtr &connPtr){
+
+        //接收一个新连接
+        LOG_INFO<<"Drop Connection: IP="<<connPtr->getIP()<<" PORT="<<connPtr->getPort()<<LOG_ENDL;
+        connSet.erase(connPtr);
+    }
+    void startLoop(){
+
+        //启动服务器监听客户端连接
+        _server.startListen();
+    }
+
+private:
+    TCPServer _server;
+    std::set<ConnPtr> connSet;
+};
+
+int main(){
+    LOG.resetPath("/home/zhsy/work/ClionWorkspace/beluga/LogTest.log");
+
+    LOG_INFO<<"start Loop"<<LOG_ENDL;
+    ChatServer chatServer(9000);
+    chatServer.startLoop();
+    return 0;
+
+}
+```
+## An easy RPC server
+```cpp
+
+#include "protobuf/echo.pb.h"
+#include "beluga/rpc-probuf/RPC_Server.h"
+#include "beluga/log/LogStream.h"
+
+class MySumService : public belugaEcho::EchoService {
+public:
+    virtual void Echo(::google::protobuf::RpcController* /* controller */,
+                      const ::belugaEcho::Request* request,
+                      ::belugaEcho::Response* response,
+                      ::google::protobuf::Closure* done) {
+        response->set_sum(request->a()+request->b());
+        done->Run();
+    }
+};
+
+int main() {
+    LOG.resetPath("/media/zhsy/Document/beluga/LogTest.log");
+    RPC_Server rpc_server(10000);
+
+    MySumService sum_service;
+    rpc_server.registerService(&sum_service);
+    rpc_server.startLoop();
+
+    return 0;
+}
+```
 # Performance Test
 
 
