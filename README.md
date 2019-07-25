@@ -200,15 +200,11 @@ int main(){
 }
 ```
 ## More examples
-[beluga/example](https://github.com/ZhangSenyan/beluga/tree/master/examples)
+[beluga/examples](https://github.com/ZhangSenyan/beluga/tree/master/examples)
 # Performance Test
 ### 吞吐量测试
 ##### 单线程
-<style>
-table th:first-of-type {
-	width: 200px;
-}
-</style>
+
 | 连接数      | 1           | 10          | 100         | 1000        | 10000       |
 | :--------: | :---------: | :---------: | :---------: | :---------: | :---------: |
 | Throughput(MiB/s)| --    | --          | --          | --          | --          |
