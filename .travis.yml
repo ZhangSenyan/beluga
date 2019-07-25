@@ -11,24 +11,23 @@ install:
   - sudo apt-get install autoconf automake libtool curl make g++ unzip
   - cmake -version
   - make -version
-  - cd ..
-#  - git clone -b v3.8.0 https://github.com/protocolbuffers/protobuf.git
-#  - cd protobuf
-#  - git submodule update --init --recursive
-#  - ./autogen.sh
-#  - ./configure
-#  - make
-#  - make check
-#  - sudo make install
-#  - sudo ldconfig
-#  - cd ..
+ # - cd ..
+ # - git clone -b v3.8.0 https://github.com/protocolbuffers/protobuf.git
+ # - cd protobuf
+ # - git submodule update --init --recursive
+ # - ./autogen.sh
+ # - ./configure
+ # - make
+ # - make check
+  - SOURCE_DIR=`pwd`
+  - cd beluga/cmake/install/protobuf/protobuf
+  - sudo make install
+  - sudo ldconfig
 env:
   - BUILD_TYPE=debug
   - BUILD_TYPE=release
 
 script:
-  - cd beluga
-  - SOURCE_DIR=`pwd`
   - g++ --version
   - cmake --version
   - cd $SOURCE_DIR

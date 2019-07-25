@@ -5,7 +5,7 @@ add_subdirectory(base)
 add_subdirectory(log)
 add_subdirectory(net)
 add_subdirectory(task)
-#add_subdirectory(rpc-probuf)
+add_subdirectory(rpc-probuf)
 
 
 add_library(beluga_lib SHARED TCPServer.cpp TCPClient.cpp beluga.h)
@@ -15,6 +15,6 @@ target_link_libraries(beluga_lib
         task_lib
         net_lib
         log_lib
-        #rpc_lib
+        rpc_lib
         Threads::Threads
 )
