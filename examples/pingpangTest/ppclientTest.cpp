@@ -1,3 +1,4 @@
+
 #include "beluga/TCPClient.h"
 #include "beluga/net/Channel.h"
 #include "beluga/thread/EventLoop.h"
@@ -5,7 +6,7 @@
 //Ping-Pong Client
 class PPClient{
 public:
-    PPClient(char * ip, int port,EventLoop* eventLoop,int blockSize):
+    PPClient(const char * ip, int port,EventLoop* eventLoop,int blockSize):
     _tcpClient(ip,port),
     _channel(new Channel(0)),
     _eventLoop(eventLoop){
@@ -66,4 +67,5 @@ int main(){
         sleep(1);
     }
 
+    return 0;
 }

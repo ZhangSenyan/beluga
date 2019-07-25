@@ -1,9 +1,12 @@
-//
-// Created by zhsy on 19-6-27.
-//
+/**
+ * @author Zhang Senyan
+ * Date: 2019-04-07
+ *
+ * ThreadData
+ */
 
-#ifndef HCCSERVER_THREADDATA_H
-#define HCCSERVER_THREADDATA_H
+#ifndef BELUGA_THREADDATA_H
+#define BELUGA_THREADDATA_H
 
 
 #include <functional>
@@ -18,4 +21,4 @@ public:
 };
 
 
-#endif //HCCSERVER_THREADDATA_H
+#endif //BELUGA_THREADDATA_H
