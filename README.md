@@ -199,6 +199,8 @@ int main(){
 
 }
 ```
+## More examples
+[beluga/example]((https://github.com/ZhangSenyan/beluga/examples/)
 # Performance Test
 ### 吞吐量测试
 ##### 单线程
