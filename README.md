@@ -203,4 +203,9 @@ int main(){
 
 
 # Reference
-
+> * #### Linux多线程服务端编程 - 陈硕
+> * #### Unix环境编程
+> * #### 高性能服务器编程
+> * #### Ying's blog (RPC)
+> * #### Jim Fawcett, CSE687 
+> * #### C++ primer
