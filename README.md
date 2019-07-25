@@ -23,12 +23,16 @@ beluga 基于事件驱动，采用非阻塞IO，整体框架由mainReactor,SubRe
 
 
 # Design Guidance
-## Multiple Reactors
-使用multiple Reactors (MainReactor+SubReactor+Worker Threads Pool)
-![Multiple Reactors](https://github.com/ZhangSenyan/beluga/raw/master/docs/MultipleReactors.png)
+
+>#### [网络模型](https://github.com/ZhangSenyan/beluga/设计思路.md/内存池设计)
+>#### [内存池设计](https://github.com/ZhangSenyan/beluga/设计思路.md)
+>#### [Log日志系统](https://github.com/ZhangSenyan/beluga/设计思路.md)
+>#### [双任务队列](https://github.com/ZhangSenyan/beluga/设计思路.md)
+>#### [心跳检测](https://github.com/ZhangSenyan/beluga/设计思路.md)
+>#### [缓冲区Buffer设计](https://github.com/ZhangSenyan/beluga/设计思路.md)
+
 
 # Build
-
 
 ```cpp
 git clone --recursive https://github.com/SenyanZhang/beluga.git
