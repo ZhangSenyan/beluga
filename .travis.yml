@@ -12,16 +12,16 @@ install:
   - cmake -version
   - make -version
   - cd ..
-  - git clone -b v3.8.0 https://github.com/protocolbuffers/protobuf.git
-  - cd protobuf
-  - git submodule update --init --recursive
-  - ./autogen.sh
-  - ./configure
-  - make
-  - make check
-  - sudo make install
-  - sudo ldconfig
-  - cd ..
+#  - git clone -b v3.8.0 https://github.com/protocolbuffers/protobuf.git
+#  - cd protobuf
+#  - git submodule update --init --recursive
+#  - ./autogen.sh
+#  - ./configure
+#  - make
+#  - make check
+#  - sudo make install
+#  - sudo ldconfig
+#  - cd ..
 env:
   - BUILD_TYPE=debug
   - BUILD_TYPE=release
