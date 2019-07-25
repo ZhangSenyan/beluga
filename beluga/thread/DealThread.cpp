@@ -1,6 +1,9 @@
-//
-// Created by zhsy on 19-6-8.
-//
+/**
+ * @author Zhang Senyan
+ * Date: 2019-04-29
+ *
+ */
+
 #include <string>
 #include <iostream>
 #include <memory>
@@ -11,25 +14,47 @@
 #include "beluga/task/TaskQueue.h"
 
 #include "DealThread.h"
+
+
 using namespace beluga;
-DealThread::DealThread():_runing(false),_t(std::mem_fun(&DealThread::HandleLoop),this),_taskQueue(nullptr){
+
+/**
+ * 构造函数
+ */
+DealThread::DealThread():
+        _runing(false),
+        _t(std::mem_fun(&DealThread::HandleLoop),this),
+        _taskQueue(nullptr){
+
     std::cout<<"DealThread::DealThread"<<std::endl;
 }
 DealThread::~DealThread(){
 
 }
+
+/**
+ * 启动计算线程
+ */
 void DealThread::startLoop(){
-    //std::cout<<" start Loop ... "<<std::endl;
     _runing=true;
     _t.detach();
 }
+
+
 void DealThread::HandleLoop(){
-    //std::cout<<" HandleLoop ... "<<std::endl;
+
+    /**
+     * 待完善
+     * 改为countdownlatch
+     */
     while(!_runing) usleep(10*1000);
-    //这里必须要设置等待否则在其他对象初始化之前调用对象
+
     while(_runing){
-        //std::cout<<"Looping ... "<<std::endl;
+
+        //监听任务
         if(_taskQueue.get()){
+
+            //处理任务
             _workFunctor(_taskQueue->pop());
 
         }
@@ -37,9 +62,18 @@ void DealThread::HandleLoop(){
     }
 }
 
+/**
+ * 设置任务队列
+ * @param taskQueue
+ */
 void DealThread::setTaskQueue(TaskQueuePtr taskQueue){
     _taskQueue=std::move(taskQueue);
 }
+
+/**
+ * 注册任务回显
+ * @param workFunctor
+ */
 void DealThread::setMessageCallBack(WorkFunctor workFunctor){
     _workFunctor=workFunctor;
 }

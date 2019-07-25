@@ -90,17 +90,21 @@ void EventLoop::HandleLoop(){
     }
 }
 
-
+/**
+ * 向 epoll 中添加 channel
+ * @param channel
+ */
 void EventLoop::addChannel(Epoll::ptrChannel channel){
     _epoll.addChannel(channel);
 }
-
 
 void EventLoop::removeChannel(Epoll::ptrChannel channel){
     _epoll.removeChannel(channel);
 }
 
-
+/**
+ * 处理注册的定时任务
+ */
 void EventLoop::timerHandle() {
     if(_timeFunctors.empty())
         return;
@@ -110,7 +114,10 @@ void EventLoop::timerHandle() {
     }
 }
 
-
+/**
+ * 添加定时任务
+ * @param functor
+ */
 void EventLoop::addTimeFunctor(CallFunc functor){
     _timeFunctors.push_back(functor);
 }
@@ -120,21 +127,29 @@ Epoll* EventLoop::getEpoll(){
     return &_epoll;
 }
 
-
+/**
+ * 添加待处理事务
+ * @param functor
+ */
 void EventLoop::addPendingFunctor(CallFunc functor){
 
     _pendingFunctors.push_back(functor);
 }
 
-
+/**
+ * 待处理事务
+ */
 void EventLoop::doPendingFunctors(){
 
     std::vector<CallFunc> functors;
+
+    //取出事务
     {
         std::lock_guard<std::mutex> l(_mutex);
         functors.swap(_pendingFunctors);
     }
 
+    //调用事务注册的回调函数
     for(auto functor:functors){
         functor();
     }

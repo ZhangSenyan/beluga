@@ -1,10 +1,17 @@
-//
-// Created by zhsy on 19-7-7.
-//
+/**
+ * @author Zhang Senyan
+ * Date: 2019-04-29
+ *
+ * 计算线程池
+ */
 
 #include "DealThreadPool.h"
+
 using namespace beluga;
-/*
+
+
+/**
+ * 构造函数
  * 初始化创建线程池，大小为size，放到vector中
  */
 DealThreadPool::DealThreadPool(int size):_threads()
@@ -17,7 +24,8 @@ DealThreadPool::DealThreadPool(int size):_threads()
 DealThreadPool::~DealThreadPool(){
 
 }
-/*
+
+/**
  * 设置任务队列
  */
 void DealThreadPool::setTaskQueue(std::shared_ptr<TaskQueue> taskQueue){
@@ -25,7 +33,8 @@ void DealThreadPool::setTaskQueue(std::shared_ptr<TaskQueue> taskQueue){
         thread->setTaskQueue(taskQueue);
     }
 }
-/*
+
+/**
  * 线程池启动
  */
 void DealThreadPool::startLoop(){
@@ -33,6 +42,11 @@ void DealThreadPool::startLoop(){
         thread->startLoop();
     }
 }
+
+/**
+ * 消息接收回显
+ * @param workFunctor
+ */
 void DealThreadPool::setMessageCallBack(WorkFunctor workFunctor){
     for(auto thread:_threads){
         thread->setMessageCallBack(workFunctor);

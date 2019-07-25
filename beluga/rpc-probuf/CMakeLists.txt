@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.7)
-message("message from ./net")
+message("message from ./rpc-probuf")
 
 find_package(Protobuf REQUIRED)
 include_directories(${Protobuf_INCLUDE_DIRS})
