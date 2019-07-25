@@ -1,16 +1,29 @@
-//
-// Created by zhsy on 19-7-7.
-//
+/**
+ * @author Zhang Senyan
+ * Date: 2019-04-19
+ *
+ * EventLoop
+ */
 
 #include "EventLoop.h"
 #include <cassert>
-EventLoop::EventLoop(int size,int timer_ms):_epoll(size),_runing(false),
-_t(std::mem_fun(&EventLoop::HandleLoop),this),_timer(timer_ms),_threadId(_t.get_id()){
 
-    //usleep(10000);
+using beluga::CallFunc;
+
+/**
+ * 构造函数
+ */
+EventLoop::EventLoop(int size,int timer_ms):
+            _epoll(size),
+            _runing(false),
+            _t(std::mem_fun(&EventLoop::HandleLoop),this),
+            _timer(timer_ms),
+            _threadId(_t.get_id()){
+
+    //设置定时器，并添加进epoll事件中
     _timer.setHolder(this);
     _timer.getChannel()->setEvents(EPOLLIN | EPOLLET);
-    //_timer.setTimeHandler(std::bind(&EventLoop::timerHandle,this));
+
     _epoll.addChannel(_timer.getChannel());
 
 }
@@ -19,9 +32,19 @@ EventLoop::~EventLoop(){
 
 }
 
+/**
+ * 开始事件循环
+ * @param method:
+ *        1. detach ： 主线程与子线程分离
+ *        2. join  ： 主线程等待子线程运行结束
+ *
+ */
 void EventLoop::startLoop(beluga::LoopMethod method){
+
     _runing=true;
+
     std::cout<<" start Loop ... "<<std::endl;
+
     switch(method){
         case beluga::LoopMethod::detach:{
             _t.detach();
@@ -39,26 +62,44 @@ void EventLoop::startLoop(beluga::LoopMethod method){
     
 }
 
+/**
+ * 事件循环主体
+ */
 void EventLoop::HandleLoop(){
-    //等待开始命令
+
+    /**
+     * 等待开始命令
+     * 这里应该使用countdownlatch (待完善)
+     */
     while(!_runing)usleep(10*1000);
     std::cout<<" start runing ... "<<std::endl;
+
     while(_runing){
+
+        //等待事件到来
         Epoll::VectorCh channels=_epoll.poll();
+
+        //处理事件
         for(auto channel:channels){
             //assert(!channel->expired());
             channel->handleEvents();
         }
+
+        //处理其他事务
         doPendingFunctors();
     }
 }
 
+
 void EventLoop::addChannel(Epoll::ptrChannel channel){
     _epoll.addChannel(channel);
 }
+
+
 void EventLoop::removeChannel(Epoll::ptrChannel channel){
     _epoll.removeChannel(channel);
 }
+
 
 void EventLoop::timerHandle() {
     if(_timeFunctors.empty())
@@ -69,21 +110,26 @@ void EventLoop::timerHandle() {
     }
 }
 
-void EventLoop::addTimeFunctor(Functor functor){
+
+void EventLoop::addTimeFunctor(CallFunc functor){
     _timeFunctors.push_back(functor);
 }
+
 
 Epoll* EventLoop::getEpoll(){
     return &_epoll;
 }
 
-void EventLoop::addPendingFunctor(Functor functor){
+
+void EventLoop::addPendingFunctor(CallFunc functor){
 
     _pendingFunctors.push_back(functor);
 }
+
+
 void EventLoop::doPendingFunctors(){
 
-    std::vector<Functor> functors;
+    std::vector<CallFunc> functors;
     {
         std::lock_guard<std::mutex> l(_mutex);
         functors.swap(_pendingFunctors);
