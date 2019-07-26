@@ -41,7 +41,7 @@ void* MemoryPool::alloc(size_t size){
 
     if(size>=128){
         //向系统申请内存
-        MemoryUnit* p= (MemoryUnit*)::malloc(size+sizeof(MemoryUnit));
+        MemoryUnit* p= (MemoryUnit*) (malloc(size+sizeof(MemoryUnit)));
 
         //所属的内存块为空
         p->holder= nullptr;

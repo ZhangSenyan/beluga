@@ -32,6 +32,7 @@ int main(){
 
         if(fds[0].revents&(POLLIN)){
             //收到数据
+            std::cout<<"recv data"<<std::endl;
             for(std::string& msg:client.readStream()){
                 std::cout<<msg<<std::endl;
             }
@@ -41,6 +42,7 @@ int main(){
             // 1ms 定时
             uint64_t exp = 0;
             read(timefd, &exp, sizeof(uint64_t));
+            std::cout<<"send ^^^"<<std::endl;
             client.write("^^^"); //发送数据
         }
         if(fds[2].revents&(POLLIN)){

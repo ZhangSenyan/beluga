@@ -22,7 +22,7 @@ TCPServer::TCPServer(int port):
     _listenFd(socketCreate(port)),
     _running(false),
     _acceptThreads(4,150000),
-    _dealThreads(8),
+    _dealThreads(4),
     _taskQueue(new TaskQueue()),
     _eventLoop(50000,1000),
     _listenChannel(new Channel(0)){

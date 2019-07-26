@@ -21,6 +21,7 @@ public:
 
         //消息处理函数
         //LOG_INFO<<cellTask->getConnAddress()<<" ping-pang:"<<cellTask->getTaskString()<<LOG_ENDL;
+        
         std::string str=cellTask->getTaskString();
         _count+=str.length();
         cellTask->respond(str);

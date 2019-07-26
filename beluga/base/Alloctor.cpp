@@ -12,7 +12,7 @@
 #include"MemoryPool.h"
 #include"Alloctor.h"
 
-//#define USE_MEMORY_POOL
+#define USE_MEMORY_POOL
 #ifdef USE_MEMORY_POOL
 
 // 重载 operator new

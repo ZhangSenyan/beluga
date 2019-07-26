@@ -27,18 +27,21 @@ public:
         eventLoop->addChannel(_channel);
 
     }
+    
     void handle_read(){
         //std::cout<<"handle_read()"<<std::endl;
         _tcpClient.readStream();
         _channel->addEvents(EPOLLOUT);
         _eventLoop->getEpoll()->updateChannel(_channel);
     }
+    
     void handle_write(){
         //std::cout<<"handle_write()"<<std::endl;
         _tcpClient.write(_msg);
         _channel->removeEvents(EPOLLOUT);
         _eventLoop->getEpoll()->updateChannel(_channel);
     }
+    
     void handle_error(){
         std::cout<<"handle_error()"<<std::endl;
     }
@@ -53,13 +56,13 @@ typedef std::shared_ptr<PPClient> PPClientPtr;
 typedef std::set<PPClientPtr> PPClientSet;
 int main(){
 
-    int clientNum=10000;
+    int clientNum=3000;
 
     EventLoop eventLoop;
     eventLoop.startLoop();
     PPClientSet ppClientSet;
     for(int i=0;i<clientNum;i++){
-        PPClientPtr ppClientPtr(new PPClient("10.20.4.5",10000,&eventLoop,128));
+        PPClientPtr ppClientPtr(new PPClient("10.20.4.5",10000,&eventLoop,16000));
         ppClientSet.insert(ppClientPtr);
         usleep(20);
     }

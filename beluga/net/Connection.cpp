@@ -71,10 +71,11 @@ void Connection::handleRead(){
 
     //读取消息
     std::vector<std::string> msgs=_buffer.readStream();
-
+    
     for(auto msg:msgs){
 
         //过滤心跳信息
+        
         if(msg!="^^^") {
 
             //创建任务并压入队列
@@ -91,7 +92,7 @@ void Connection::handleRead(){
  * 写事件处理函数
  */
 void Connection::handleWrite(){
-    std::cout<<"handle write ... "<<std::endl;
+    //std::cout<<"handle write ... "<<std::endl;
     _buffer.flushSend();
     if(_buffer.empty()){
         closeListenEvent();

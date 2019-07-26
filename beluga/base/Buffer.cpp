@@ -70,7 +70,7 @@ int Buffer::write(const char* str){
 int Buffer::write(const char* str,uint32_t len){
 
     MutexLockGuard lock(_mutex);
-
+    
     /**
      * 判断缓冲区剩余空间是否足够
      * len+4 ： 写入数据的长度 + 数据头长度
@@ -122,9 +122,9 @@ int Buffer::flushSend(){
         //当前缓冲区为空
         return 0;
     }
-
+    
     // 将缓冲区数据写入网络
-    int ret=writen(_fd,sendbuffer,(size_t )sendIndexEnd);
+    int ret=writen(_fd,sendbuffer,(size_t)sendIndexEnd);
 
     if(ret==-1)
         //写入失败
@@ -165,6 +165,7 @@ std::vector<std::string> Buffer::readStream(){
         //错误，返回空
         return retV;
 
+    
     //移动游标
     recvIndexEnd+=retn;
 
@@ -175,7 +176,7 @@ std::vector<std::string> Buffer::readStream(){
         //获取数据包长度，并转换为主机字节序
         uint32_t len=ntohl(*((uint32_t*)(recvbuffer+recvIndexBegin)));
 
-
+        recvIndexBegin+=4;
         if(len>recvIndexEnd-recvIndexBegin){
             //收到的数据不完整，不能凑够一条
             recvIndexBegin-=4;
