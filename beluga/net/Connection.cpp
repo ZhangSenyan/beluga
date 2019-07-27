@@ -39,13 +39,10 @@ Connection::~Connection() {
 }
 
 
-int Connection::getFd(){
+int Connection::getFd() const{
     return _fd;
 }
 
-void Connection::setFd(int fd){
-    _fd=fd;
-}
 
 std::string Connection::getIP() const{
     return inet_ntoa(_clientAddr.sin_addr);

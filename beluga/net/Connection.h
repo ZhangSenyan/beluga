@@ -18,6 +18,8 @@
 #include "beluga/base/Buffer.h"
 
 
+
+
 class Channel;
 class CellTask;
 class AcceptThread;
@@ -31,8 +33,7 @@ public:
     ~Connection();
 
     //获取Connection对应的 fd
-    int getFd();
-    void setFd(int fd);
+    int getFd() const;
 
     //事件处理函数
     void handleRead();
@@ -71,6 +72,18 @@ private:
 
     Buffer _buffer;
 };
+
+/**
+ * 重载后将Connection的智能指针直接放在set或map
+ * 更加安全
+ */
+inline bool
+operator<(const std::shared_ptr<Connection>& __a,
+          const std::shared_ptr<Connection>& __b) noexcept
+{
+    return __a->getFd()<__b->getFd();
+}
+
 
 
 #endif //BELUGA_CONNECTION_H

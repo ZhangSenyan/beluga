@@ -2,7 +2,6 @@
  * @author Zhang Senyan
  * Date: 2019-05-10
  *
- * ThreadData
  */
 
 #ifndef BELUGA_BELUGA_H
@@ -41,11 +40,9 @@ namespace beluga{
     typedef std::function<void(void)> CallFunc;
 
 
-
     using std::placeholders::_1;
     using std::placeholders::_2;
     using std::placeholders::_3;
-
 
 
     enum class LoopMethod{

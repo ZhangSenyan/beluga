@@ -151,7 +151,7 @@ public:
     void onMessage(CellTaskPtr cellTask){
 
         //消息处理函数
-        LOG_INFO<<cellTask->getConnAddress()<<" echo:"<<cellTask->getTaskString()<<LOG_ENDL;
+        LOG_INFO<<cellTask->getConnAddress()<<" chat:"<<cellTask->getTaskString()<<LOG_ENDL;
 
         std::string msg=cellTask->getTaskString();
         ConnPtr connPtr=cellTask->getConn();
@@ -186,6 +186,9 @@ public:
 
 private:
     TCPServer _server;
+    
+    //已重载operator<(ConnPtr,ConnPtr)
+    //是安全的
     std::set<ConnPtr> connSet;
 };
 

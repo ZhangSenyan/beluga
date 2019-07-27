@@ -49,6 +49,9 @@ public:
 
 private:
     TCPServer _server;
+
+    //已重载operator<(ConnPtr,ConnPtr)
+    //是安全的
     std::set<ConnPtr> connSet;
 };
 
